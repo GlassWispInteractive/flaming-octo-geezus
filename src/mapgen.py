@@ -8,7 +8,7 @@ class GenerateMap(object):
 		super(GenerateMap, self).__init__()
 		self.x, self.y = (300, 300)
 		self.map = [[0]*self.y for i in range(self.x)]
-		self.split(0, self.x, 0, self.y, 2)
+		self.split(0, self.x, 0, self.y, 4)
 
 	def split(self, xlo, xhi, ylo, yhi, iteration):
 		# too small
@@ -19,10 +19,10 @@ class GenerateMap(object):
 			
 		# generate room in splitted space
 		if (xhi-xlo) * (yhi-ylo) <= 30 or iteration == 0:
-			# values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
-			# xlo, xhi = min(values), max(values)
-			# values = sample(range(ylo, yhi), 2)
-			# ylo, yhi = min(values), max(values)
+			values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
+			xlo, xhi = min(values), max(values)
+			values = sample(range(ylo, yhi), 2)
+			ylo, yhi = min(values), max(values)
 
 			# set room
 			self.set_room(xlo, xhi-1, ylo, yhi-1)
