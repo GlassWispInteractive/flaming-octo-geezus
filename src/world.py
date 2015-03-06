@@ -24,7 +24,7 @@ class World(object):
 
 	@classmethod
 	def init(cls):
-		cls.cur_level = cls.gen_new_level(400, 400)
+		cls.cur_level = cls.gen_new_level(10, 10)
 
 	@classmethod
 	def gen_new_level(cls, x, y):
@@ -84,12 +84,13 @@ class Dungeon(object):
 	def __init__(self, x, y, m):
 		self.level = m # 2 dimensional int array {0,1}
 		# A Dungeon surface only needs to be initialized ONCE
+		scale = 40
 
-		self.surf = pygame.Surface((x,y))
+		self.surf = pygame.Surface((x*scale,y*scale))
 
 		self.pxarr = pygame.PixelArray(self.surf)
 
 		for xx in range(x):
 			for yy in range(y):
-				self.pxarr[xx,yy] = (127,127,127) if self.pxarr[xx,yy] > 0 else (50,50,50)
+				self.pxarr[xx*scale : xx*scale+scale-1 , yy*scale : yy*scale+scale-1] = (127,127,127) if self.level[xx][yy] > 0 else (50,50,50)
 		del self.pxarr
