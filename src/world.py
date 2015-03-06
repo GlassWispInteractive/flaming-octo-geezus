@@ -2,35 +2,51 @@
 # -*- coding: utf-8 *-*
 import pygame
 import mapgen
+from helper import Mode, Dir, field2coor
 
 ## GLOBAL CONSTANTS
 X = 1000
 Y = 600
 FPS = 30
+SCALE = 12
 Title = 'Flaming Octo Geezus'
-
-# possible modes (menu, game, highscore?)
-def enum(*seq, **named): return type('Enum', (), dict(zip(seq, range(len(seq))), **named)) ## dont even ask
-Mode = enum('Start', 'Menu', 'InGame', 'InGameDetail', 'GameOver')
-
 
 ## Static World Class
 class World(object):
 	"""Holds complete Game Logic State"""
+
+	class Player(object):
+		"""inner class for player; everything static as well"""
+		x = None
+		y = None
+
+		@classmethod
+		def move(cls, dir):
+			"""Takes a Dir enum and moves the player (if possible)"""
+			pass
+
+
 	RUN = True
 	dungeons = [] # list of instances of Dungeon (see below) objects
-	player = None
+	player = Player
 	tick = 0
 
 	@classmethod
 	def init(cls):
-		cls.cur_level = cls.gen_new_level(10, 10)
+		#cls.cur_level = cls.gen_new_level(25, 15)
+
+		## TEST CODE
+		import test_dungeon
+		cls.dungeons.append(Dungeon(50, 50, test_dungeon.bsp_example, SCALE))
+		cls.cur_level = 0
+		cls.player.x = 8
+		cls.player.y = 8
 
 	@classmethod
 	def gen_new_level(cls, x, y):
-		gen = mapgen.GenerateMap(x,y)
+		gen = mapgen.GenerateMap()
 		#import pprint; pprint.pprint(gen.map)
-		dung = Dungeon(x, y, gen.map)
+		dung = Dungeon(gen.x, gen.y, gen.map)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 
@@ -69,9 +85,9 @@ class Visualization(object):
 		# HERE BE RENDERING CODE
 
 		# Test...
-		cls.MAIN.blit(World.dungeons[World.cur_level].surf, (300,100))
+		cls.MAIN.blit(World.dungeons[World.cur_level].surf, (0,0))
+		pygame.draw.circle(World.dungeons[World.cur_level].surf, (255,0,0), field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
 		cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
-
 
 		pygame.display.update()
 
@@ -81,16 +97,20 @@ class Visualization(object):
 
 
 class Dungeon(object):
-	def __init__(self, x, y, m):
+	def __init__(self, x, y, m, s):
+		"""Generate a Surface for the dungeon.
+		x and y are the dimensions,
+		m is the 2-dimensional array with {0,1}
+		s is the scale for a field, this should not be less than 3"""
 		self.level = m # 2 dimensional int array {0,1}
 		# A Dungeon surface only needs to be initialized ONCE
-		scale = 40
 
-		self.surf = pygame.Surface((x*scale,y*scale))
+		self.surf = pygame.Surface((x*s,y*s))
 
 		self.pxarr = pygame.PixelArray(self.surf)
 
 		for xx in range(x):
 			for yy in range(y):
-				self.pxarr[xx*scale : xx*scale+scale-1 , yy*scale : yy*scale+scale-1] = (127,127,127) if self.level[xx][yy] > 0 else (50,50,50)
+				self.pxarr[xx*s : xx*s+s-1 , yy*s : yy*s+s-1] = (255,255,255) if self.level[xx][yy] > 0 else (0,0,0)
+		self.surf = self.pxarr.transpose().make_surface()
 		del self.pxarr
