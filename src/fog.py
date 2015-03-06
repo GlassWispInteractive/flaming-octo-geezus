@@ -11,7 +11,9 @@ TIMER = pygame.time.Clock()
 
 wor = world.World
 vis = world.Visualization
+wor.init()
 vis.init()
+
 
 while wor.RUN:
 

@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *-*
 import pygame
-from numpy import sin, cos, array
-from math import pi
-
+import mapgen
 
 ## GLOBAL CONSTANTS
 X = 1000
@@ -20,14 +18,28 @@ Mode = enum('Start', 'Menu', 'InGame', 'InGameDetail', 'GameOver')
 class World(object):
 	"""Holds complete Game Logic State"""
 	RUN = True
-	maps = None
+	dungeons = [] # list of instances of Dungeon (see below) objects
 	player = None
 	tick = 0
+
+	@classmethod
+	def init(cls):
+		cls.cur_level = cls.gen_new_level(400, 400)
+
+	@classmethod
+	def gen_new_level(cls, x, y):
+		gen = mapgen.GenerateMap(x,y)
+		#import pprint; pprint.pprint(gen.map)
+		dung = Dungeon(x, y, gen.map)
+		cls.dungeons.append(dung)
+		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 
 
 # Static Visualization Class
 class Visualization(object):
 	"""Contains surfaces and everything that is important for visualization"""
+
+	# maybe some global class values here...
 
 	@classmethod
 	def init(cls):
@@ -57,6 +69,27 @@ class Visualization(object):
 		# HERE BE RENDERING CODE
 
 		# Test...
+		cls.MAIN.blit(World.dungeons[World.cur_level].surf, (300,100))
 		cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
 
+
 		pygame.display.update()
+
+	@classmethod
+	def render_map(cls, i):
+		m = World.maps[i]
+
+
+class Dungeon(object):
+	def __init__(self, x, y, m):
+		self.level = m # 2 dimensional int array {0,1}
+		# A Dungeon surface only needs to be initialized ONCE
+
+		self.surf = pygame.Surface((x,y))
+
+		self.pxarr = pygame.PixelArray(self.surf)
+
+		for xx in range(x):
+			for yy in range(y):
+				self.pxarr[xx,yy] = (127,127,127) if self.pxarr[xx,yy] > 0 else (50,50,50)
+		del self.pxarr
