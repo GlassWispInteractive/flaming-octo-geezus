@@ -8,9 +8,9 @@ class GenerateMap(object):
 		super(GenerateMap, self).__init__()
 		self.size = (x, y)
 		self.map = [[0]*y for i in range(x)]
-		split(0, self.size[0], 0, self.size[1])
+		self.split(0, self.size[0], 0, self.size[1])
 
-	def split(xlo, xhi, ylo, yhi):
+	def split(self, xlo, xhi, ylo, yhi):
 		# absolutely failed
 		if min(xhi-xlo, yhi-ylo) < 3:
 			return None
@@ -24,7 +24,7 @@ class GenerateMap(object):
 			ylo, yhi = min(values), max(values)
 
 			# set room
-			set_room(xlo, xhi, ylo, yhi)
+			self.set_room(xlo, xhi, ylo, yhi)
 
 			# return for futher calculations
 			return (xlo, xhi, ylo, yhi)
@@ -32,17 +32,17 @@ class GenerateMap(object):
 		if randint(0, 1):
 			# x split value
 			# it is between xlo and xhi but not too close (10%) of each ending
-			split = R(xlo + (xhi-xlo)*0,1 + randint(0, xhi-xlo)*0,8)
+			var = R(xlo + (xhi-xlo)*0.1 + randint(0, xhi-xlo)*0.8)
 
 			# recursive room generation
-			a = split(xlo, split, ylo, yhi)
-			b = split(split+1, xhi, ylo, yhi)
+			a = self.split(xlo, var, ylo, yhi)
+			b = self.split(var+1, xhi, ylo, yhi)
 
 			# check if one did not return a room
-			if !a:
+			if not a:
 				return b
 
-			if !b:
+			if not b:
 				return a
 
 			# a, b yield rooms
@@ -50,7 +50,7 @@ class GenerateMap(object):
 
 
 
-	def set_room(xlo, xhi, ylo, yhi):
+	def set_room(self, xlo, xhi, ylo, yhi):
 		for x in range(xhi-xlo):
 			for y in range(yhi-ylo):
 				map[x][y] = 1
