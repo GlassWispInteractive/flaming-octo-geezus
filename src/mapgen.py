@@ -28,8 +28,8 @@ class GenerateMap(object):
 
 			# return for futher calculations
 			return (xlo, xhi, ylo, yhi)
-
-		if randint(0, 1):
+			
+		if True or randint(0, 1):
 			# x split value
 			# it is between xlo and xhi but not too close (10%) of each ending
 			var = R(xlo + (xhi-xlo)*0.1 + randint(0, xhi-xlo)*0.8)
@@ -53,7 +53,11 @@ class GenerateMap(object):
 	def set_room(self, xlo, xhi, ylo, yhi):
 		for x in range(xhi-xlo):
 			for y in range(yhi-ylo):
-				map[x][y] = 1
+				self.map[xlo+x][ylo+y] = 1
 
 
+if __name__ == '__main__':
+	import pprint;
+	gen = GenerateMap(10, 10)
+	pprint.pprint(gen.map)
 
