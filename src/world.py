@@ -9,7 +9,11 @@ from math import pi
 X = 1000
 Y = 600
 FPS = 30
-TITLE = 'Flaming Octo Geezus'
+Title = 'Flaming Octo Geezus'
+
+# possible modes (menu, game, highscore?)
+def enum(*seq, **named): return type('Enum', (), dict(zip(seq, range(len(seq))), **named)) ## dont even ask
+Mode = enum('Start', 'Menu', 'InGame', 'InGameDetail', 'GameOver')
 
 
 ## Static World Class
@@ -27,7 +31,7 @@ class Visualization(object):
 
 	@classmethod
 	def init(cls):
-		pygame.display.set_caption(TITLE)
+		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
 		cls.GRAPHICS = None
 		cls.SOUNDS = None
