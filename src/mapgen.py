@@ -19,9 +19,9 @@ class GenerateMap(object):
 		if (xhi-xlo) * (yhi-ylo) <= 30:
 			# random split
 			values = sample(range(xlo, xhi), 3) # 3 adjust size
-			xlo, xhi = min values, max values
+			xlo, xhi = min(values), max(values)
 			values = sample(range(ylo, yhi), 3) # 3 adjust size
-			ylo, yhi = min values, max values
+			ylo, yhi = min(values), max(values)
 
 			# set room
 			set_room(xlo, xhi, ylo, yhi)
