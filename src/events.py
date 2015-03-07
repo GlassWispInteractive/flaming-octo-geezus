@@ -32,17 +32,6 @@ class EventHandler(object):
 		return cls.eventsKD
 
 
-# if PLAYER[0]-foresight < x and x > 0:
-#         x -= 1
-#     if PLAYER[0]+foresight > x + 900 / size and PLAYER[0]+foresight < gen.size[0]:
-#         x += 1
-#     if PLAYER[1]-foresight < y and y > 0:
-#         y -= 1
-#     if PLAYER[1]+foresight > y + 500 / size and PLAYER[1]+foresight < gen.size[1]:
-#         y += 1
-
-
-
 	@classmethod
 	def handle_movement(cls, keys):
 		dung = cls.W.cur_dungeon()
