@@ -8,7 +8,7 @@ from helper import Mode, Dir, field2coor
 X = 1000
 Y = 600
 FPS = 30
-SCALE = 12
+SCALE = 10
 Title = 'Flaming Octo Geezus'
 
 ## Static World Class
@@ -33,20 +33,20 @@ class World(object):
 
 	@classmethod
 	def init(cls):
-		#cls.cur_level = cls.gen_new_level(25, 15)
+		cls.cur_level = cls.gen_new_level(100, 60)
 
 		## TEST CODE
-		import test_dungeon
-		cls.dungeons.append(Dungeon(50, 50, test_dungeon.bsp_example, SCALE))
-		cls.cur_level = 0
+		#import test_dungeon
+		#cls.dungeons.append(Dungeon(50, 50, test_dungeon.bsp_example, SCALE))
+		#cls.cur_level = 0
 		cls.player.x = 8
 		cls.player.y = 8
 
 	@classmethod
 	def gen_new_level(cls, x, y):
-		gen = mapgen.GenerateMap()
+		gen = mapgen.GenerateMap(x,y)
 		#import pprint; pprint.pprint(gen.map)
-		dung = Dungeon(gen.x, gen.y, gen.map)
+		dung = Dungeon(gen.x, gen.y, gen.map, SCALE)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 

@@ -171,3 +171,15 @@ if __name__ == '__main__':
 	gen = GenerateMap()
 	pprint.pprint(gen.map)
 
+
+
+class GenerateMap2(object):
+	def __init__(self, x, y):
+		self.x, self.y = (300, 300)
+		self.map = [[0]*self.y for i in range(self.x)]
+		for _ in range(10):
+			x1, x2 = sorted(sample(range(0,self.x), 2))
+			y1, y2 = sorted(sample(range(0,self.y), 2))
+			for xx in range(x1,x2):
+				for yy in range(y1,y2):
+					self.map[xx][yy] = 1
