@@ -14,7 +14,7 @@ class Player(object):
 	def init(cls, world, pos):
 		cls.W = world
 		if pos != None:
-			self.x, self.y = pos
+			cls.x, cls.y = pos
 		else:
 			m = cls.cur_dungeon().level
 			x, y = random.sample()
