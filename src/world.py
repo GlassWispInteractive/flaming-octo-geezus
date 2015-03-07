@@ -24,7 +24,7 @@ class World(object):
 	@classmethod
 	def init(cls, world_size):
 		cls.cur_level = cls.gen_new_level(world_size)
-		cls.player.init((8,8), cls)
+		cls.player.init(cls, (8,8)) # generate random start position in player
 
 		## LOAD pre-made TEST DUNGEON
 		#import test_dungeon

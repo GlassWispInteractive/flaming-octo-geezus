@@ -19,7 +19,7 @@ class Dungeon(object):
 
 		print "Dungeon Surface SHOULD HAVE DIMENSIONS", x, y
 		self.surf = pygame.Surface((x*s,y*s))
-		print "Dungeon Surface initialized with size", self.surf.get_size()
+		print "Dungeon Surface initialized with size", self.surf.get_size(), 'considering scale', SCALE
 		# This Surface holds the complete Dungeon.
 		# Dont blit on this Surface, instead
 		# copy it, blit on the copy and show that copy to the user.

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *-*
 
+import random
+
 from const import *
 from helper import *
 import sprites
@@ -9,10 +11,14 @@ class Player(object):
 	"""class for player; everything static"""
 
 	@classmethod
-	def init(cls, (x, y), world):
-		cls.x = x
-		cls.y = y
+	def init(cls, world, pos):
 		cls.W = world
+		if pos != None:
+			self.x, self.y = pos
+		else:
+			m = cls.cur_dungeon().level
+			x, y = random.sample()
+
 		cls.commands = [] # list of commands to execute; EventHandler writes to this
 		cls.sprite = sprites.CharSetMultiSprite("graphics/Chara1.png", 24,32, 4,0, 72,128)
 

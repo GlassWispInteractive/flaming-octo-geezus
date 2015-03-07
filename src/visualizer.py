@@ -43,14 +43,12 @@ class Visualization(object):
 
 		# HERE BE RENDERING CODE
 
-		#pygame.draw.circle(cls.W.cur_dungeon().surf, (255,0,0), field2coor(cls.W.x, cls.W.y, SCALE), SCALE/2-1)
-		cls.render_player2map()
-		cls.render_playerSprite()
-
-		#cls.MAIN.blit(cls.W.dungeons[cls.W.cur_level].surf, (0,0))
-		cls.render_map(cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
-		pygame.draw.circle(cls.MAIN, (255,0,0), (0,0), 10)
-		pygame.draw.circle(cls.MAIN, (255,0,0), cls.W.dungeons[cls.W.cur_level].surf.get_size(), 10)
+		map_surf_edit = cls.W.cur_dungeon().surf.copy() # dont modify the original surface, always draw on a copy
+		cls.render_player2map(map_surf_edit)
+		cls.render_playerSprite(map_surf_edit)
+		cls.render_map(map_surf_edit, cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
+		pygame.draw.circle(map_surf_edit, (255,0,0), (0,0), 10)
+		pygame.draw.circle(map_surf_edit, (255,0,0), map_surf_edit.get_size(), 10)
 
 		# Test...
 		# cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
@@ -58,15 +56,14 @@ class Visualization(object):
 		pygame.display.update()
 
 	@classmethod
-	def render_map(cls, x, y):
-		m = cls.W.cur_dungeon()
-		cls.MAIN.blit(m.surf, (x,y))
+	def render_map(cls, surf, x, y):
+		cls.MAIN.blit(surf, (x,y))
 
 	@classmethod
-	def render_player2map(cls):
-		pygame.draw.circle(cls.W.cur_dungeon().surf, (255,0,0),
+	def render_player2map(cls, surf):
+		pygame.draw.circle(surf, (255,0,0),
 			field2coor(cls.P.x, cls.P.y, SCALE), SCALE/2-1)
 
 	@classmethod
-	def render_playerSprite(cls):
-		cls.P.sprite.draw2dungeon(1,2, cls.W.cur_dungeon().surf, cls.P.x,cls.P.y)
+	def render_playerSprite(cls, surf):
+		cls.P.sprite.draw2dungeon(1,2, surf, cls.P.x,cls.P.y)
