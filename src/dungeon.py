@@ -47,9 +47,9 @@ class Dungeon(object):
 
 		s = SCALE
 
-		print "Dungeon Surface SHOULD HAVE DIMENSIONS", x, y
+		#print "Dungeon Surface SHOULD HAVE DIMENSIONS", x, y
 		self.surf = pygame.Surface((x*s,y*s))
-		print "Dungeon Surface initialized with size", self.surf.get_size(), 'considering scale', SCALE
+		#print "Dungeon Surface initialized with size", self.surf.get_size(), 'considering scale', SCALE
 		# This Surface holds the complete Dungeon.
 		# Dont blit on this Surface, instead
 		# copy it, blit on the copy and show that copy to the user.
@@ -61,8 +61,8 @@ class Dungeon(object):
 				self.pxarr[xx*s : xx*s+s, yy*s : yy*s+s] = self.idx2color[self.level[xx][yy]]
 		del self.pxarr
 
-		print rooms
-		print sorted(rooms)
+		#print rooms
+		#print sorted(rooms)
 
 		for room in rooms:
 			topleft, topright, bottomleft, bottomright = [(SCALE*x, SCALE*y) for (x,y) in room]
@@ -99,7 +99,7 @@ class Dungeon(object):
 		rainbowV = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur.png'), (SCALE, SCALE))
 		rainbowH = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur90.png'), (SCALE, SCALE))
 		for corridor in corridors:
-			print corridor
+			#print corridor
 			((xlo, ylo), (xhi, yhi)) = corridor
 			horizontal = (xlo==xhi)
 

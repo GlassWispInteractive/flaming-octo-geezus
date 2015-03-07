@@ -10,6 +10,8 @@ from helper import *
 from resources import GRAPHICS, SOUNDS, FONTS
 import world
 import player
+import happiness
+
 
 # Static Visualization Class
 class Visualization(object):
@@ -18,11 +20,13 @@ class Visualization(object):
 	# maybe some global class values here...
 	W = world.World
 	P = player.Player
+	H = happiness.HappinessScale
 
 	@classmethod
 	def init(cls):
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
+		cls.H.init()
 
 	@classmethod
 	def class_foo(cls,x):
@@ -45,11 +49,9 @@ class Visualization(object):
 		# cls.render_player2map(map_surf_edit)
 		cls.render_playerSprite(map_surf_edit)
 		cls.render_map(map_surf_edit, -cls.W.cam_x * SCALE, -cls.W.cam_y * SCALE)
-		pygame.draw.circle(map_surf_edit, (255,0,0), (0,0), 10)
-		pygame.draw.circle(map_surf_edit, (255,0,0), map_surf_edit.get_size(), 10)
 
-		# Test...
-		# cls.draw_text("Test", FONTS['HUD'], (500,300), (200,200,100))
+		cls.H.refresh()
+		cls.MAIN.blit(cls.H.surf, (X-20,0))
 
 		pygame.display.update()
 

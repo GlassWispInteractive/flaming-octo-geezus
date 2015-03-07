@@ -15,9 +15,9 @@ import resources
 pygame.init()
 TIMER = pygame.time.Clock()
 
+evh = events.EventHandler
 wor = world.World
 vis = visualizer.Visualization
-evh = events.EventHandler
 wor.init((DUNGEON_X,DUNGEON_Y))
 vis.init()
 resources.init()
