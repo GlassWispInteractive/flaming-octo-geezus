@@ -17,6 +17,8 @@ class World(object):
 	dungeons = [] # list of instances of Dungeon (see below) objects
 	player = player.Player # overwrite module with Player class (!)
 	tick = 0
+	cam_x, cam_y = 0, 0 # world offset
+	cam = 3
 
 	@classmethod
 	def init(cls):

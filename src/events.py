@@ -29,6 +29,18 @@ class EventHandler(object):
 				cls.eventsKD.remove(e.key)
 		return cls.eventsKD
 
+
+# if PLAYER[0]-foresight < x and x > 0:
+#         x -= 1
+#     if PLAYER[0]+foresight > x + 900 / size and PLAYER[0]+foresight < gen.size[0]:
+#         x += 1
+#     if PLAYER[1]-foresight < y and y > 0:
+#         y -= 1
+#     if PLAYER[1]+foresight > y + 500 / size and PLAYER[1]+foresight < gen.size[1]:
+#         y += 1
+
+
+
 	@classmethod
 	def handle_movement(cls, keys):
 		#print "called handle_movement"
@@ -36,8 +48,14 @@ class EventHandler(object):
 			#print 'got key', k
 			if k == K_LEFT:
 				cls.W.player.x -= 1
+				
+				if cls.W.player.x - cls.W.cam < cls.W.cam_x and cls.W.cam_x > 0:
+					cls.W.cam_x -= 1;
 			if k == K_RIGHT:
 				cls.W.player.x += 1
+
+				if cls.W.player.x + cls.W.cam > cls.W.cam_x + X / SCALE and cls.W.cam_x > 0:
+					cls.W.cam_x += 1;
 			if k == K_UP:
 				cls.W.player.y -= 1
 			if k == K_DOWN:
