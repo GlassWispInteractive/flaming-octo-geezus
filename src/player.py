@@ -30,20 +30,21 @@ class Player(object):
 		cls.commands = [] # list of commands to execute; EventHandler writes to this
 		cls.sprite = sprites.CharSetMultiSprite("graphics/Chara1.png", 24,32, 4,0, 72,128)
 
-	@classmethod
-	def move(cls):
-		"""Takes a Dir enum and moves the player (if possible)"""
-		for c in cls.commands:
-			if type(c) == Enum:
-				if c == Enum.N:
-					try_pos(cls.x, cls.y-1)
-				if c == Enum.E:
-					try_pos(cls.x+1, cls.y)
-				if c == Enum.S:
-					try_pos(cls.x, cls.y+1)
-				if c == Enum.W:
-					try_pos(cls.x-1, cls.y)
+	# not in work
+	# @classmethod
+	# def move(cls):
+	# 	"""Takes a Dir enum and moves the player (if possible)"""
+	# 	for c in cls.commands:
+	# 		if type(c) == Enum:
+	# 			if c == Enum.N:
+	# 				try_pos(cls.x, cls.y-1)
+	# 			if c == Enum.E:
+	# 				try_pos(cls.x+1, cls.y)
+	# 			if c == Enum.S:
+	# 				try_pos(cls.x, cls.y+1)
+	# 			if c == Enum.W:
+	# 				try_pos(cls.x-1, cls.y)
 
-		def try_pos(x,y):
-			if cls.W.cur_dungeon().level[x][y] != 0: # if movement is allowed
-				cls.x, cls.y = x, y # then move
+	# 	def try_pos(x,y):
+	# 		if cls.W.cur_dungeon().level[x][y] != 0: # if movement is allowed
+	# 			cls.x, cls.y = x, y # then move
