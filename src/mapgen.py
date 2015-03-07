@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 *-*
+
 from random import randint, sample, choice
 
 R = lambda x: int(round(x)) # wrapper for rounding

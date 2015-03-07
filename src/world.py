@@ -8,7 +8,8 @@ from helper import Mode, Dir, field2coor
 X = 1000
 Y = 600
 FPS = 30
-SCALE = 5 ## Only Change for Testing
+SCALE = 10 ## Only Change for Testing
+## Standard: 32
 Title = 'Flaming Octo Geezus'
 
 ## Static World Class
@@ -56,7 +57,7 @@ class World(object):
 	@classmethod
 	def gen_new_level(cls, x, y):
 		gen = mapgen.GenerateMap(x,y)
-		dung = Dungeon(gen.x, gen.y, gen.map)
+		dung = Dungeon(x, y, gen.map)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 
@@ -66,6 +67,8 @@ class Visualization(object):
 	"""Contains surfaces and everything that is important for visualization"""
 
 	# maybe some global class values here...
+	W = World
+	P = World.player
 
 	@classmethod
 	def init(cls):
@@ -101,7 +104,8 @@ class Visualization(object):
 		cls.render_playerSprite(i)
 
 		#cls.MAIN.blit(World.dungeons[World.cur_level].surf, (0,0))
-		cls.render_map(i, 200, 0)
+		cls.render_map(i, 0, 0)
+		pygame.draw.circle(cls.MAIN, (255,0,0), cls.W.dungeons[cls.W.cur_level].surf.get_size(), 10)
 
 
 		# Test...
@@ -111,17 +115,17 @@ class Visualization(object):
 
 	@classmethod
 	def render_map(cls, i, x, y):
-		m = World.dungeons[i]
+		m = cls.W.dungeons[i]
 		cls.MAIN.blit(m.surf, (x,y))
 
 	@classmethod
 	def render_player2map(cls, i):
-		pygame.draw.circle(World.dungeons[i].surf, (255,0,0),
-			field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
+		pygame.draw.circle(cls.W.dungeons[i].surf, (255,0,0),
+			field2coor(cls.P.x, cls.P.y, SCALE), SCALE/2-1)
 
 	@classmethod
 	def render_playerSprite(cls, i):
-		World.player.sprite.draw2dungeon(1,2, World.dungeons[i].surf, World.player.x, World.player.y)
+		cls.P.sprite.draw2dungeon(1,2, cls.W.dungeons[i].surf, cls.P.x,cls.P.y)
 
 
 class MultiSprite(object):
@@ -147,9 +151,10 @@ class MultiSprite(object):
 		rx, ry = self.res_x, self.res_y
 		offX, offY = self.offX, self.offY
 		gX, gY = self.gX, self.gY
-		subsprite_rect = (gX+rx*x, gY+ry*y, gX+rx*x+rx, gY+ry*y+ry) # square around the sub sprite we want to draw
+
+		subsprite_rect = (gX+rx*x, gY+ry*y, rx, ry) # square around the sub sprite we want to draw
 		topleft = (t_x*SCALE+offX, t_y*SCALE+offY) # topleft target coordinates; here goes the subsprite
-		print subsprite_rect, topleft
+		#print subsprite_rect, topleft
 		target.blit(self.sprite, topleft, subsprite_rect)
 
 class TileSetMultiSprite(MultiSprite):
@@ -171,7 +176,9 @@ class Dungeon(object):
 
 		s = SCALE
 
+		print "Dungeon Surface SHOULD HAVE DIMENSIONS", x, y
 		self.surf = pygame.Surface((x*s,y*s))
+		print "Dungeon Surface initialized with size", self.surf.get_size()
 		# This Surface holds the complete Dungeon.
 		# Dont blit on this Surface, instead
 		# copy it, blit on the copy and show that copy to the user.
@@ -180,6 +187,6 @@ class Dungeon(object):
 
 		for xx in range(x):
 			for yy in range(y):
-				self.pxarr[yy*s : yy*s+s-1, xx*s : xx*s+s-1] = (100*self.level[xx][yy],100*self.level[xx][yy],100*self.level[xx][yy])
+				val = 100*self.level[xx][yy]
+				self.pxarr[xx*s : xx*s+s-1, yy*s : yy*s+s-1] = (val, val, val)
 		del self.pxarr
-
