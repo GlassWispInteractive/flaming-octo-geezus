@@ -15,6 +15,7 @@ class World(object):
 
 	RUN = True
 	dungeons = [] # list of instances of Dungeon (see below) objects
+	cur_level = -float('inf')
 	player = player.Player # overwrite module with Player class (!)
 	tick = 0
 	cam_x, cam_y = 0, 0 # world offset
@@ -36,3 +37,7 @@ class World(object):
 		dung = dungeon.Dungeon(x, y, gen.map)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
+
+	@classmethod
+	def cur_dungeon(cls):
+		return cls.dungeons[cls.cur_level]

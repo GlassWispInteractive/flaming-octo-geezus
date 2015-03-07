@@ -43,19 +43,14 @@ class Visualization(object):
 
 		# HERE BE RENDERING CODE
 
-		i = cls.W.cur_level
-
-		#pygame.draw.circle(cls.W.dungeons[cls.W.cur_level].surf, (255,0,0), field2coor(cls.W.x, cls.W.y, SCALE), SCALE/2-1)
-		cls.render_player2map(i)
-		cls.render_playerSprite(i)
-
-		
+		#pygame.draw.circle(cls.W.cur_dungeon().surf, (255,0,0), field2coor(cls.W.x, cls.W.y, SCALE), SCALE/2-1)
+		cls.render_player2map()
+		cls.render_playerSprite()
 
 		#cls.MAIN.blit(cls.W.dungeons[cls.W.cur_level].surf, (0,0))
 		cls.render_map(i, cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
 		pygame.draw.circle(cls.MAIN, (255,0,0), (0,0), 10)
 		pygame.draw.circle(cls.MAIN, (255,0,0), cls.W.dungeons[cls.W.cur_level].surf.get_size(), 10)
-
 
 		# Test...
 		# cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
@@ -63,15 +58,15 @@ class Visualization(object):
 		pygame.display.update()
 
 	@classmethod
-	def render_map(cls, i, x, y):
-		m = cls.W.dungeons[i]
+	def render_map(cls, x, y):
+		m = cls.W.cur_dungeon()
 		cls.MAIN.blit(m.surf, (x,y))
 
 	@classmethod
-	def render_player2map(cls, i):
-		pygame.draw.circle(cls.W.dungeons[i].surf, (255,0,0),
+	def render_player2map(cls):
+		pygame.draw.circle(cls.W.cur_dungeon().surf, (255,0,0),
 			field2coor(cls.P.x, cls.P.y, SCALE), SCALE/2-1)
 
 	@classmethod
-	def render_playerSprite(cls, i):
-		cls.P.sprite.draw2dungeon(1,2, cls.W.dungeons[i].surf, cls.P.x,cls.P.y)
+	def render_playerSprite(cls):
+		cls.P.sprite.draw2dungeon(1,2, cls.W.cur_dungeon().surf, cls.P.x,cls.P.y)

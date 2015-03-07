@@ -19,7 +19,7 @@ class MultiSprite(object):
 		self.gX = gX
 		self.gY = gY
 
-	def draw2dungeon(self, x, y, target, t_x=SCALE, t_y=SCALE):
+	def draw2dungeon(self, x, y, target, t_x=SCALE, t_y=SCALE): # Dont even ask ^^
 		"""x and y are the position of the subsprite in the MultiSprite.
 		   target is the target surface and
 		   t_x and t_y are the positions to where the subsprite shall be blitted.
