@@ -111,6 +111,5 @@ class Dungeon(object):
 
 		for xx in range(x):
 			for yy in range(y):
-				self.pxarr[xx*s : xx*s+s-1 , yy*s : yy*s+s-1] = (255,255,255) if self.level[xx][yy] > 0 else (0,0,0)
-		self.surf = self.pxarr.transpose().make_surface()
+				self.pxarr[yy*s : yy*s+s-1, xx*s : xx*s+s-1] = (255,255,255) if self.level[xx][yy] > 0 else (0,0,0)
 		del self.pxarr
