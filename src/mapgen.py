@@ -15,9 +15,9 @@ class GenerateMap(object):
 		super(GenerateMap, self).__init__()
 
 		# vars
-		self.rooms = []
 		self.x, self.y = (x, y)
 		self.map = [[0]*self.y for i in range(self.x)]
+		self.rooms = []
 
 		# generation calls
 		self.split(0, self.x, 0, self.y, ITER)
