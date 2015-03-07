@@ -10,8 +10,8 @@ class Dungeon(object):
 		"""Generate a Surface for the dungeon.
 		x and y are the dimensions,
 		m is the 2-dimensional array with {0,1}"""
-		self.x = x
-		self.y = y
+		self.size_x = x
+		self.size_y = y
 		self.level = m # 2 dimensional int array {0,1}
 		# A Dungeon surface only needs to be initialized ONCE
 
