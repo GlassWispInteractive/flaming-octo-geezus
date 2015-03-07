@@ -11,13 +11,15 @@ TIMER = pygame.time.Clock()
 
 wor = world.World
 vis = world.Visualization
+evh = events.EventHandler
 wor.init()
 vis.init()
 
 
 while wor.RUN:
 
-	ev = events.filter_keydown()
+	evs = evh.filter_keydown()
+	evh.handle_movement(evs)
 
 	vis.render_main()
 

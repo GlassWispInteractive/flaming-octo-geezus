@@ -53,4 +53,7 @@ docs/_build/
 # PyBuilder
 target/
 
+# CUSTOM
 .c9
+dungeon_gens
+

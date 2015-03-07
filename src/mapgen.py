@@ -2,6 +2,7 @@ from random import randint, sample, choice
 
 R = lambda x: int(round(x)) # wrapper for rounding
 
+ITER = 8
 
 class GenerateMap(object):
 	"""class which is responsible for the world generation"""
@@ -9,25 +10,26 @@ class GenerateMap(object):
 		super(GenerateMap, self).__init__()
 		self.x, self.y = (x, y)
 		self.map = [[0]*self.y for i in range(self.x)]
-		self.split(0, self.x, 0, self.y, 4)
+		self.split(0, self.x, 0, self.y, ITER)
 
 	def split(self, xlo, xhi, ylo, yhi, iteration):
 		# too small
 		if min(xhi-xlo, yhi-ylo) < 4:
+			print 'broke after', ITER - iteration, 'iterations'
 			return
 		
 		
 			
 		# generate room in splitted space
-		if (xhi-xlo) * (yhi-ylo) <= 30 or iteration == 0:
-			temp = R((xhi-xlo)*0.3)
+		if (xhi-xlo) * (yhi-ylo) <= 40 or iteration == 0:
+			temp = R((xhi-xlo)*0.1)
 			xlo += randint(0, temp) + 0
-			temp = R((xhi-xlo)*0.3)
+			temp = R((xhi-xlo)*0.1)
 			xhi -= randint(0, temp) + 0
 
-			temp = R((yhi-ylo)*0.3)
+			temp = R((yhi-ylo)*0.1)
 			ylo += randint(0, temp) + 0
-			temp = R((yhi-ylo)*0.3)
+			temp = R((yhi-ylo)*0.1)
 			yhi -= randint(0, temp) + 0
 
 

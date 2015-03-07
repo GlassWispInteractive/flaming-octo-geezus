@@ -84,16 +84,40 @@ class Visualization(object):
 
 		# HERE BE RENDERING CODE
 
+		i = World.cur_level
+
+		#pygame.draw.circle(World.dungeons[World.cur_level].surf, (255,0,0), field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
+		cls.render_player2map(i)
+
+		#cls.MAIN.blit(World.dungeons[World.cur_level].surf, (0,0))
+		cls.render_map(i, 200, 0)
+
+
 		# Test...
-		cls.MAIN.blit(World.dungeons[World.cur_level].surf, (0,0))
-		pygame.draw.circle(World.dungeons[World.cur_level].surf, (255,0,0), field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
 		cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
 
 		pygame.display.update()
 
 	@classmethod
-	def render_map(cls, i):
-		m = World.maps[i]
+	def render_map(cls, i, x, y):
+		m = World.dungeons[i]
+		cls.MAIN.blit(m.surf, (x,y))
+
+	@classmethod
+	def render_player2map(cls, i):
+		pygame.draw.circle(World.dungeons[i].surf, (255,0,0),
+			field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
+
+
+	class MultiSprite(object):
+		def __init__(self, path, res):
+			self.sprite = pygame.image.load("path")
+			self.res = res
+
+		def draw(self, x, y, target, t_x, t_y):
+			r = self.res
+			subsprite_rect = (r*x, r*y, r*x+r, r*y+r)
+			target.blit(self.image, (t_x, t_y), subsprite_rect)
 
 
 class Dungeon(object):
@@ -113,3 +137,4 @@ class Dungeon(object):
 			for yy in range(y):
 				self.pxarr[yy*s : yy*s+s-1, xx*s : xx*s+s-1] = (255,255,255) if self.level[xx][yy] > 0 else (0,0,0)
 		del self.pxarr
+
