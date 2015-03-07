@@ -6,23 +6,34 @@ class GenerateMap(object):
 	"""class which is responsible for the world generation"""
 	def __init__(self):
 		super(GenerateMap, self).__init__()
-		self.x, self.y = (300, 300)
+		self.x, self.y = (100, 60)
 		self.map = [[0]*self.y for i in range(self.x)]
 		self.split(0, self.x, 0, self.y, 4)
 
 	def split(self, xlo, xhi, ylo, yhi, iteration):
 		# too small
-		if min(xhi-xlo, yhi-ylo) < 3:
+		if min(xhi-xlo, yhi-ylo) < 4:
 			return
 		
 		
 			
 		# generate room in splitted space
 		if (xhi-xlo) * (yhi-ylo) <= 30 or iteration == 0:
-			values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
-			xlo, xhi = min(values), max(values)
-			values = sample(range(ylo, yhi), 2)
-			ylo, yhi = min(values), max(values)
+			temp = R((xhi-xlo)*0.3)
+			xlo += randint(0, temp) + 0
+			temp = R((xhi-xlo)*0.3)
+			xhi -= randint(0, temp) + 0
+
+			temp = R((yhi-ylo)*0.3)
+			ylo += randint(0, temp) + 0
+			temp = R((yhi-ylo)*0.3)
+			yhi -= randint(0, temp) + 0
+
+
+			# values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
+			# xlo, xhi = min(values), max(values)
+			# values = sample(range(ylo, yhi), 2)
+			# ylo, yhi = min(values), max(values)
 
 			# set room
 			self.set_room(xlo, xhi-1, ylo, yhi-1)
@@ -33,7 +44,7 @@ class GenerateMap(object):
 		if randint(0, 1):
 			# x split value
 			# it is between xlo and xhi but not too close (10%) of each ending
-			var = R(xlo + 1 + randint(0, xhi-xlo-1))
+			var = R(xlo + (xhi-xlo)*0.45 + randint(0, R((xhi-xlo)*0.1)) )
 			
 			print "xs", var, xlo, xhi
 			# recursive room generation
@@ -64,7 +75,7 @@ class GenerateMap(object):
 			# 	print b, rangeb
 			# 	print "this means work"
 		else:
-			var = R(ylo + 1 + randint(0, yhi-ylo-1))
+			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)) )
 			
 			print "ys", var, ylo, yhi
 			# recursive room generation
