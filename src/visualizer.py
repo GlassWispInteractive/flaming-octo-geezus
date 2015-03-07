@@ -2,9 +2,12 @@
 # -*- coding: utf-8 *-*
 
 import pygame
+import os.path as path
+import glob
 
 from const import *
 from helper import *
+from resources import GRAPHICS, SOUNDS, FONTS
 import world
 import player
 
@@ -20,11 +23,6 @@ class Visualization(object):
 	def init(cls):
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
-		cls.GRAPHICS = None
-		cls.SOUNDS = None
-		cls.FONTS = {
-						'HUD' : pygame.font.Font("resources/pixel.ttf", 20)
-					}
 
 	@classmethod
 	def class_foo(cls,x):
@@ -51,7 +49,7 @@ class Visualization(object):
 		pygame.draw.circle(map_surf_edit, (255,0,0), map_surf_edit.get_size(), 10)
 
 		# Test...
-		# cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
+		# cls.draw_text("Test", FONTS['HUD'], (500,300), (200,200,100))
 
 		pygame.display.update()
 

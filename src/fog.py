@@ -9,6 +9,8 @@ import player
 import visualizer
 import events
 from const import *
+from helper import *
+import resources
 
 pygame.init()
 TIMER = pygame.time.Clock()
@@ -18,7 +20,7 @@ vis = visualizer.Visualization
 evh = events.EventHandler
 wor.init((DUNGEON_X,DUNGEON_Y))
 vis.init()
-
+resources.init()
 
 while wor.RUN:
 

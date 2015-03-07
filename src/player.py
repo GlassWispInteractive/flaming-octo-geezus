@@ -17,9 +17,9 @@ class Player(object):
 			cls.x, cls.y = pos
 		else:
 			m = cls.W.cur_dungeon()
-			x, y = 0, 0
+			x, y = DUNGEON_X/2, DUNGEON_Y/2
 			while m.level[x][y] not in list(range(1,3)):
-				x, y = random.randint(0, m.size_x), random.randint(0, m.size_y)
+				x, y = random.randint(0, m.size_x-1), random.randint(0, m.size_y-1)
 			cls.x = x
 			cls.W.cam_y = cls.y = y
 

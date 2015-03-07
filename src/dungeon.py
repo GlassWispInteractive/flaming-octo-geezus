@@ -5,7 +5,7 @@ import pygame
 from math import pi
 
 from const import *
-
+from resources import GRAPHICS, SOUNDS, FONTS
 
 """
 Possible values for Entries in a level variable:
@@ -30,7 +30,7 @@ class Dungeon(object):
 
 	idx2color = {
 		0 : (209, 230, 232), # baby blue
-		1 : (100,100,100),
+		1 : (209, 230, 232),
 		2 : (200,200,200),
 		3 : (100,100,100),
 		4 : (200,200,200)
@@ -65,20 +65,40 @@ class Dungeon(object):
 		print sorted(rooms)
 
 		for room in rooms:
-			topleft, topright, bottomleft, bottomright = room
+			topleft, topright, bottomleft, bottomright = [(SCALE*x, SCALE*y) for (x,y) in room]
 
 			rect = pygame.Rect(0, 0, 2*s, 2*s)
-			rect.topleft = [x*s for x in topleft]
-			pygame.draw.arc(self.surf, BLACK, rect, 0, pi/2, 2)
+			rect.topleft = topleft
+			pygame.draw.arc(self.surf, WHITE, rect, pi/2, pi, 20)
 
 			rect = pygame.Rect(0, 0, 2*s, 2*s)
-			rect.topright = [x*s for x in topright]
-			pygame.draw.arc(self.surf, GREEN, rect, pi/2, pi, 2)
+			rect.topright = topright
+			pygame.draw.arc(self.surf, WHITE, rect, 0, pi/2, 20)
 
 			rect = pygame.Rect(0, 0, 2*s, 2*s)
-			rect.bottomleft = [x*s for x in bottomleft]
-			pygame.draw.arc(self.surf, BLUE,  rect, pi,3*pi/2, 2)
+			rect.bottomleft = bottomleft
+			pygame.draw.arc(self.surf, WHITE, rect, pi,3*pi/2, 20)
 
 			rect = pygame.Rect(0, 0, 2*s, 2*s)
-			rect.bottomright = [x*s for x in bottomright]
-			pygame.draw.arc(self.surf, RED,   rect, 3*pi/2, 2*pi, 2)
+			rect.bottomright = bottomright
+			pygame.draw.arc(self.surf, WHITE, rect, 3*pi/2, 2*pi, 20)
+
+			points = [
+				(topleft[0], topleft[1]+SCALE),
+				(topleft[0]+SCALE, topleft[1]),
+				(topright[0]-SCALE, topright[1]),
+				(topright[0], topright[1]+SCALE),
+				(bottomright[0], bottomright[1]-SCALE),
+				(bottomright[0]-SCALE, bottomright[1]),
+				(bottomleft[0]+SCALE, bottomleft[1]),
+				(bottomleft[0], bottomleft[1]-SCALE),
+			]
+			pygame.draw.polygon(self.surf, WHITE, points)
+
+		#rainbow = pygame.transform.scale(GRAPHICS['rainbow_blur'], (SCALE,SCALE))
+		rainbow = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur.png'), (SCALE, SCALE))
+		for corridor in corridors:
+			((xlo, ylo), (xhi, yhi)) = corridor
+			for x in range(xlo, xhi+1):
+				for y in range(ylo, yhi+1):
+					self.surf.blit(rainbow, (SCALE*x, SCALE*y))
