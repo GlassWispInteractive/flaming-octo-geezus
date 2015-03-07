@@ -8,7 +8,7 @@ from helper import Mode, Dir, field2coor
 X = 1000
 Y = 600
 FPS = 30
-SCALE = 5
+SCALE = 5 ## Only Change for Testing
 Title = 'Flaming Octo Geezus'
 
 ## Static World Class
@@ -17,8 +17,20 @@ class World(object):
 
 	class Player(object):
 		"""inner class for player; everything static as well"""
-		x = None
-		y = None
+
+		@classmethod
+		def init(cls, (x, y)):
+			cls.x = x
+			cls.y = y
+			cls.sprite = CharSetMultiSprite("graphics/Chara1.png", 24,32, 4,0, 72,128)
+
+
+		"""path = file path of the Multi sprite.
+		   res_x and res_y are the X, Y size of each sub sprite.
+		   offX and offY can specify an internal offset which are applied inside of a field (used for char sets).
+		   gX and gY specify global offsets (used for char sets)."""
+
+
 
 		@classmethod
 		def move(cls, dir):
@@ -34,19 +46,17 @@ class World(object):
 	@classmethod
 	def init(cls):
 		cls.cur_level = cls.gen_new_level(100, 60)
+		cls.player.init((8,8))
 
-		## TEST CODE
+		## LOAD pre-made TEST DUNGEON
 		#import test_dungeon
-		#cls.dungeons.append(Dungeon(50, 50, test_dungeon.bsp_example, SCALE))
+		#cls.dungeons.append(Dungeon(50, 50, test_dungeon.bsp_example))
 		#cls.cur_level = 0
-		cls.player.x = 8
-		cls.player.y = 8
 
 	@classmethod
 	def gen_new_level(cls, x, y):
 		gen = mapgen.GenerateMap(x,y)
-		#import pprint; pprint.pprint(gen.map)
-		dung = Dungeon(gen.x, gen.y, gen.map, SCALE)
+		dung = Dungeon(gen.x, gen.y, gen.map)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 
@@ -64,7 +74,7 @@ class Visualization(object):
 		cls.GRAPHICS = None
 		cls.SOUNDS = None
 		cls.FONTS = {
-						'HUD' : pygame.font.Font("../resources/pixel.ttf", 20)
+						'HUD' : pygame.font.Font("resources/pixel.ttf", 20)
 					}
 
 	@classmethod
@@ -88,6 +98,7 @@ class Visualization(object):
 
 		#pygame.draw.circle(World.dungeons[World.cur_level].surf, (255,0,0), field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
 		cls.render_player2map(i)
+		cls.render_playerSprite(i)
 
 		#cls.MAIN.blit(World.dungeons[World.cur_level].surf, (0,0))
 		cls.render_map(i, 200, 0)
@@ -108,28 +119,62 @@ class Visualization(object):
 		pygame.draw.circle(World.dungeons[i].surf, (255,0,0),
 			field2coor(World.player.x, World.player.y, SCALE), SCALE/2-1)
 
+	@classmethod
+	def render_playerSprite(cls, i):
+		World.player.sprite.draw2dungeon(1,2, World.dungeons[i].surf, World.player.x, World.player.y)
 
-	class MultiSprite(object):
-		def __init__(self, path, res):
-			self.sprite = pygame.image.load("path")
-			self.res = res
 
-		def draw(self, x, y, target, t_x, t_y):
-			r = self.res
-			subsprite_rect = (r*x, r*y, r*x+r, r*y+r)
-			target.blit(self.image, (t_x, t_y), subsprite_rect)
+class MultiSprite(object):
+	def __init__(self, path, res_x, res_y=None, offX=0, offY=0, gX=0, gY=0):
+		"""path = file path of the Multi sprite.
+		   res_x and res_y are the X, Y size of each sub sprite.
+		   offX and offY can specify an internal offset which are applied inside of a field (used for char sets).
+		   gX and gY specify global offsets (used for char sets)."""
+		self.sprite = pygame.image.load(path)
+		self.res_x = res_x
+		self.res_y = res_y if res_y else res_x
+		self.offX = offX
+		self.offY = offY
+		self.gX = gX
+		self.gY = gY
+
+	def draw2dungeon(self, x, y, target, t_x=SCALE, t_y=SCALE):
+		"""x and y are the position of the subsprite in the MultiSprite.
+		   target is the target surface and
+		   t_x and t_y are the positions to where the subsprite shall be blitted.
+		   All coordinates are scaled accordingly inside this funtion."""
+		# make this _a little_ more readable ^^
+		rx, ry = self.res_x, self.res_y
+		offX, offY = self.offX, self.offY
+		gX, gY = self.gX, self.gY
+		subsprite_rect = (gX+rx*x, gY+ry*y, gX+rx*x+rx, gY+ry*y+ry) # square around the sub sprite we want to draw
+		topleft = (t_x*SCALE+offX, t_y*SCALE+offY) # topleft target coordinates; here goes the subsprite
+		print subsprite_rect, topleft
+		target.blit(self.sprite, topleft, subsprite_rect)
+
+class TileSetMultiSprite(MultiSprite):
+	def __init__(self, path, res_x, res_y=None):
+		super(TileSetMultiSprite, self).__init__(path, res_x, res_y)
+
+class CharSetMultiSprite(MultiSprite):
+	def __init__(self, path, res_x, res_y=None, offX=0, offY=0, gX=0, gY=0):
+		super(CharSetMultiSprite, self).__init__(path, res_x, res_y, offX, offY, gX, gY)
 
 
 class Dungeon(object):
-	def __init__(self, x, y, m, s):
+	def __init__(self, x, y, m):
 		"""Generate a Surface for the dungeon.
 		x and y are the dimensions,
-		m is the 2-dimensional array with {0,1}
-		s is the scale for a field, this should not be less than 3"""
+		m is the 2-dimensional array with {0,1}"""
 		self.level = m # 2 dimensional int array {0,1}
 		# A Dungeon surface only needs to be initialized ONCE
 
+		s = SCALE
+
 		self.surf = pygame.Surface((x*s,y*s))
+		# This Surface holds the complete Dungeon.
+		# Dont blit on this Surface, instead
+		# copy it, blit on the copy and show that copy to the user.
 
 		self.pxarr = pygame.PixelArray(self.surf)
 

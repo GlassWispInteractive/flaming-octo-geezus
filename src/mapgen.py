@@ -45,6 +45,7 @@ class GenerateMap(object):
 			return (xlo, xhi, ylo, yhi)
 			
 		if randint(0, 1):
+			# Vertical Split "-"
 			# x split value
 			# it is between xlo and xhi but not too close (10%) of each ending
 			var = R(xlo + (xhi-xlo)*0.45 + randint(0, R((xhi-xlo)*0.1)) )
@@ -77,7 +78,8 @@ class GenerateMap(object):
 			# 	print b, rangeb
 			# 	print "this means work"
 		else:
-			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)) )
+			# Horizontal Split "|"
+			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)))
 			
 			# recursive room generation
 			self.split(xlo, xhi, ylo, var, iteration-1)

@@ -1,4 +1,3 @@
 #!/bin/sh
-cd src
-python fog.py
-cd ..
+# Legacy ^^
+python run.py

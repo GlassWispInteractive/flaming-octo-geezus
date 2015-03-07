@@ -33,7 +33,7 @@ class EventHandler(object):
 	def handle_movement(cls, keys):
 		#print "called handle_movement"
 		for k in keys:
-			print 'got key', k
+			#print 'got key', k
 			if k == K_LEFT:
 				cls.W.player.x -= 1
 			if k == K_RIGHT:
@@ -42,4 +42,3 @@ class EventHandler(object):
 				cls.W.player.y -= 1
 			if k == K_DOWN:
 				cls.W.player.y += 1
-
