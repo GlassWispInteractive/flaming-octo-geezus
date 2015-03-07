@@ -132,7 +132,8 @@ class GenerateMap(object):
 
 		b = self.closest_room(a)
 		self.rooms.remove(a)
-		self.rooms.remove(b)
+		# print "to remove", b
+		if b: self.rooms.remove(b) # if b because this crashed for no reason
 		self.rooms.append(a+b)
 		pa, pb = self.room_dist_pair(a, b)
 
