@@ -31,7 +31,7 @@ class Dungeon(object):
 	idx2color = {
 		0 : (209, 230, 232), # baby blue
 		1 : (209, 230, 232),
-		2 : (200,200,200),
+		2 : (255, 64, 222), # pink (Dannys idea)
 		3 : (100,100,100),
 		4 : (200,200,200)
 	}
@@ -96,9 +96,17 @@ class Dungeon(object):
 			pygame.draw.polygon(self.surf, WHITE, points)
 
 		#rainbow = pygame.transform.scale(GRAPHICS['rainbow_blur'], (SCALE,SCALE))
-		rainbow = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur.png'), (SCALE, SCALE))
+		rainbowV = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur.png'), (SCALE, SCALE))
+		rainbowH = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur90.png'), (SCALE, SCALE))
 		for corridor in corridors:
+			print corridor
 			((xlo, ylo), (xhi, yhi)) = corridor
-			for x in range(xlo, xhi+1):
-				for y in range(ylo, yhi+1):
-					self.surf.blit(rainbow, (SCALE*x, SCALE*y))
+			horizontal = (xlo==xhi)
+
+			if horizontal:
+				for y in range(ylo+1, yhi):
+					self.surf.blit(rainbowH, (SCALE*xlo, SCALE*y))
+
+			else:
+				for x in range(xlo+1, xhi):
+					self.surf.blit(rainbowV, (SCALE*x, SCALE*ylo))
