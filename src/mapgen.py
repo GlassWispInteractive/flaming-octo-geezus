@@ -3,6 +3,8 @@
 
 from random import randint, sample, choice
 
+from const import *
+
 R = lambda x: int(round(x)) # wrapper for rounding
 
 ITER = 8

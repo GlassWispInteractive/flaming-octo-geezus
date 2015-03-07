@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *-*
 
+from const import *
+
 def enum(*seq, **named): return type('Enum', (), dict(zip(seq, range(len(seq))), **named)) ## dont even ask
 
 # possible modes (menu, game, highscore?)
