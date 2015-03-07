@@ -20,9 +20,12 @@ class Player(object):
 			x, y = 0, 0
 			while m.level[x][y] not in list(range(1,3)):
 				x, y = random.randint(0, m.size_x), random.randint(0, m.size_y)
-			cls.W.cam_x = cls.x = x
+			cls.x = x
 			cls.W.cam_y = cls.y = y
-		print 'spawn player @', (cls.x, cls.y)
+
+			cls.W.cam_x = min(cls.x, m.size_x - X / SCALE)
+			cls.W.cam_y = min(cls.y, m.size_y - Y / SCALE)
+			# print cls.W.cam_x, m.size_x, X / SCALE, cls.W.cam
 
 		cls.commands = [] # list of commands to execute; EventHandler writes to this
 		cls.sprite = sprites.CharSetMultiSprite("graphics/Chara1.png", 24,32, 4,0, 72,128)
