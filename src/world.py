@@ -34,7 +34,7 @@ class World(object):
 	@classmethod
 	def gen_new_level(cls, (x, y)):
 		gen = mapgen.GenerateMap(x,y)
-		dung = dungeon.Dungeon(x, y, gen.map)
+		dung = dungeon.Dungeon(x, y, gen.map, gen.persistent_rooms, gen.persistent_corridors)
 		cls.dungeons.append(dung)
 		return len(cls.dungeons) - 1 # should be obvious that this is NOT thread safe
 

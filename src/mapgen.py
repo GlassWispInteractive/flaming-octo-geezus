@@ -18,6 +18,8 @@ class GenerateMap(object):
 		self.x, self.y = (x, y)
 		self.map = [[0]*self.y for i in range(self.x)]
 		self.rooms = []
+		self.persistent_rooms = []
+		self.persistent_corridors = []
 
 		# generation calls
 		self.split(0, self.x, 0, self.y, ITER)
@@ -104,18 +106,24 @@ class GenerateMap(object):
 
 		self.rooms.append(room)
 
+		# export rooms for drawing
+		self.persistent_rooms.append( ( (xlo,ylo), (xhi,ylo), (xlo,yhi), (xhi,yhi) ) )
+
 	def rand_room(self, lo, hi):
 		return randint(lo, hi), randint(lo, hi)
 
 	def set_connect(self, xlo, xhi, ylo, yhi):
 		# print "connect", xlo, xhi, ylo, yhi
+		corridor = []
 
 		for x in range(xlo, xhi+1):
 			for y in range(ylo, yhi+1):
 				if self.map[x][y] == 0:
+					corridor.append((x,y))
 					self.map[x][y] = 2
 
-
+		# export corridors
+		self.persistent_corridors.append( ( (xlo,ylo), (xhi,yhi) ) )
 
 	def connect(self, a):
 		# everything is connected
