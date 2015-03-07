@@ -44,9 +44,9 @@ class Visualization(object):
 		# HERE BE RENDERING CODE
 
 		map_surf_edit = cls.W.cur_dungeon().surf.copy() # dont modify the original surface, always draw on a copy
-		cls.render_player2map(map_surf_edit)
+		# cls.render_player2map(map_surf_edit)
 		cls.render_playerSprite(map_surf_edit)
-		cls.render_map(map_surf_edit, cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
+		cls.render_map(map_surf_edit, -cls.W.cam_x * SCALE, -cls.W.cam_y * SCALE)
 		pygame.draw.circle(map_surf_edit, (255,0,0), (0,0), 10)
 		pygame.draw.circle(map_surf_edit, (255,0,0), map_surf_edit.get_size(), 10)
 

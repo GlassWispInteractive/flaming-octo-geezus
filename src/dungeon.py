@@ -28,6 +28,9 @@ class Dungeon(object):
 
 		for xx in range(x):
 			for yy in range(y):
-				val = 100*self.level[xx][yy]
-				self.pxarr[xx*s : xx*s+s-1, yy*s : yy*s+s-1] = (val, val, val)
+				if self.level[xx][yy] != 0:
+					val = 100*self.level[xx][yy]
+					self.pxarr[xx*s : xx*s+s-1, yy*s : yy*s+s-1] = (val, val, val)
+				else:
+					self.pxarr[xx*s : xx*s+s, yy*s : yy*s+s] = (209, 230, 232)
 		del self.pxarr

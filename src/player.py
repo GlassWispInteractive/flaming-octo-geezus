@@ -20,7 +20,8 @@ class Player(object):
 			x, y = 0, 0
 			while m.level[x][y] not in list(range(1,3)):
 				x, y = random.randint(0, m.size_x), random.randint(0, m.size_y)
-			cls.x, cls.y = x, y
+			cls.W.cam_x = cls.x = x
+			cls.W.cam_y = cls.y = y
 		print 'spawn player @', (cls.x, cls.y)
 
 		cls.commands = [] # list of commands to execute; EventHandler writes to this

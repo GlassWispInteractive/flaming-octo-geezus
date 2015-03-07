@@ -4,7 +4,7 @@
 ## GLOBAL CONSTANTS
 X = 960
 Y = 640
-DUNGEON_X = 30
+DUNGEON_X = 40
 DUNGEON_Y = 40
 FPS = 15
 SCALE = 32 ## Only Change for Testing

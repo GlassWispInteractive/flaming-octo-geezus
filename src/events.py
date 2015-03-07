@@ -51,27 +51,29 @@ class EventHandler(object):
 		for k in keys:
 			#print 'got key', k
 			if k == K_LEFT:
-				cls.W.player.x -= 1
-				
-				# if cls.W.player.x - cls.W.cam < cls.W.cam_x and cls.W.cam_x > 0:
-				# 	cls.W.cam_x -= 1
+				if cls.W.player.x > 0:
+					cls.W.player.x -= 1
+
+				if cls.W.player.x > cls.W.cam - 1 and cls.W.player.x - cls.W.cam < cls.W.cam_x:
+				 	cls.W.cam_x -= 1
 			if k == K_RIGHT:
-				cls.W.player.x += 1
+				if cls.W.player.x < dung.size_x - 1:
+					cls.W.player.x += 1				
 
-				# if cls.W.player.x + cls.W.cam > cls.W.cam_x + X / SCALE and cls.W.cam_x + cls.W.cam < dung.size_x:
-				# 	cls.W.cam_x += 1
+				if cls.W.player.x + cls.W.cam - 1 < dung.size_x and cls.W.player.x + cls.W.cam > cls.W.cam_x + X / SCALE:
+					cls.W.cam_x += 1
 			if k == K_UP:
-				print cls.W.player.y, cls.W.cam, cls.W.cam_y, Y / SCALE, dung.size_y
-
-
-				if cls.W.cam_y < 0:
+				if cls.W.player.y > 0:
 					cls.W.player.y -= 1
 
-					if cls.W.player.y - cls.W.cam < cls.W.cam_y:
-					 	cls.W.cam_y += 1
+				if cls.W.player.y > cls.W.cam - 1 and cls.W.player.y - cls.W.cam < cls.W.cam_y:
+				 	cls.W.cam_y -= 1
+
 			if k == K_DOWN:
-				if cls.W.player.y + cls.W.cam < dung.size_y:
+				if cls.W.player.y < dung.size_y - 1:
 					cls.W.player.y += 1				
 
-					if cls.W.player.y + cls.W.cam > cls.W.cam_y + Y / SCALE:
-						cls.W.cam_y -= 1
+				if cls.W.player.y + cls.W.cam - 1 < dung.size_y and cls.W.player.y + cls.W.cam > cls.W.cam_y + Y / SCALE:
+					cls.W.cam_y += 1
+
+				# print cls.W.player.y, cls.W.cam, cls.W.cam_y, Y / SCALE, dung.size_y
