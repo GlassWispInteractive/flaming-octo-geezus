@@ -8,7 +8,7 @@ from helper import Mode, Dir, field2coor
 X = 1000
 Y = 600
 FPS = 30
-SCALE = 10
+SCALE = 5
 Title = 'Flaming Octo Geezus'
 
 ## Static World Class
@@ -94,7 +94,7 @@ class Visualization(object):
 
 
 		# Test...
-		cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
+		# cls.draw_text("Test", cls.FONTS['HUD'], (500,300), (200,200,100))
 
 		pygame.display.update()
 
@@ -135,6 +135,6 @@ class Dungeon(object):
 
 		for xx in range(x):
 			for yy in range(y):
-				self.pxarr[yy*s : yy*s+s-1, xx*s : xx*s+s-1] = (255,255,255) if self.level[xx][yy] > 0 else (0,0,0)
+				self.pxarr[yy*s : yy*s+s-1, xx*s : xx*s+s-1] = (100*self.level[xx][yy],100*self.level[xx][yy],100*self.level[xx][yy])
 		del self.pxarr
 

@@ -8,29 +8,29 @@ class GenerateMap(object):
 	"""class which is responsible for the world generation"""
 	def __init__(self, x, y):
 		super(GenerateMap, self).__init__()
+
+		# vars
+		self.rooms = []
 		self.x, self.y = (x, y)
 		self.map = [[0]*self.y for i in range(self.x)]
+
+		# generation calls
 		self.split(0, self.x, 0, self.y, ITER)
+		self.connect(self.rooms[randint(0, len(self.rooms)-1)])
 
 	def split(self, xlo, xhi, ylo, yhi, iteration):
 		# too small
 		if min(xhi-xlo, yhi-ylo) < 4:
-			print 'broke after', ITER - iteration, 'iterations'
+			# print 'broke after', ITER - iteration, 'iterations'
 			return
-		
-		
 			
 		# generate room in splitted space
 		if (xhi-xlo) * (yhi-ylo) <= 40 or iteration == 0:
-			temp = R((xhi-xlo)*0.1)
-			xlo += randint(0, temp) + 0
-			temp = R((xhi-xlo)*0.1)
-			xhi -= randint(0, temp) + 0
+			xlo += min(randint(0, R((xhi-xlo)*0.1)), 3)
+			xhi -= min(randint(0, R((xhi-xlo)*0.1)), 3)
 
-			temp = R((yhi-ylo)*0.1)
-			ylo += randint(0, temp) + 0
-			temp = R((yhi-ylo)*0.1)
-			yhi -= randint(0, temp) + 0
+			ylo += min(randint(0, R((yhi-ylo)*0.1)), 3)
+			yhi -= min(randint(0, R((yhi-ylo)*0.1)), 3)
 
 
 			# values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
@@ -49,10 +49,9 @@ class GenerateMap(object):
 			# it is between xlo and xhi but not too close (10%) of each ending
 			var = R(xlo + (xhi-xlo)*0.45 + randint(0, R((xhi-xlo)*0.1)) )
 			
-			print "xs", var, xlo, xhi
 			# recursive room generation
-			a = self.split(xlo, var, ylo, yhi, iteration-1)
-			b = self.split(var, xhi, ylo, yhi, iteration-1)
+			self.split(xlo, var, ylo, yhi, iteration-1)
+			self.split(var, xhi, ylo, yhi, iteration-1)
 
 			# check if one did not return a room
 			# if not a:
@@ -80,19 +79,129 @@ class GenerateMap(object):
 		else:
 			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)) )
 			
-			print "ys", var, ylo, yhi
 			# recursive room generation
-			a = self.split(xlo, xhi, ylo, var, iteration-1)
-			b = self.split(xlo, xhi, var, yhi, iteration-1)
+			self.split(xlo, xhi, ylo, var, iteration-1)
+			self.split(xlo, xhi, var, yhi, iteration-1)
 				
 
 
 
 	def set_room(self, xlo, xhi, ylo, yhi):
-		num = randint(10,100)
-		for x in range(xhi-xlo):
-			for y in range(yhi-ylo):
-				self.map[xlo+x][ylo+y] = 1
+		# print "room", xlo, xhi, ylo, yhi
+
+		room = []
+		for x in range(xlo, xhi):
+			for y in range(ylo, yhi):
+				self.map[x][y] = 1
+				room.append((x,y))
+
+		self.rooms.append(room)
+
+	def rand_room(self, lo, hi):
+		return randint(lo, hi), randint(lo, hi)
+
+	def set_connect(self, xlo, xhi, ylo, yhi):
+		# print "connect", xlo, xhi, ylo, yhi
+
+		for x in range(xlo, xhi+1):
+			for y in range(ylo, yhi+1):
+				if self.map[x][y] == 0:
+					self.map[x][y] = 2
+
+
+
+	def connect(self, a):
+		# everything is connected
+		if len(self.rooms) <= 1:
+			return
+
+		b = self.closest_room(a)
+		self.rooms.remove(a)
+		self.rooms.remove(b)
+		self.rooms.append(a+b)
+		pa, pb = self.room_dist_pair(a, b)
+
+		# print pa, pb
+
+		if pa[0] == pb[0]:
+			self.set_connect(pa[0], pa[0], min(pa[1], pb[1]), max(pa[1], pb[1]))
+		elif pa[1] == pb[1]:
+			self.set_connect(min(pa[0], pb[0]), max(pa[0], pb[0]), pa[1], pa[1])
+		else:
+			if randint(0,1):
+				# pc = (pa[0], pb[1])
+				self.set_connect(pa[0], pa[0], min(pa[1], pb[1]), max(pa[1], pb[1]))
+				self.set_connect(min(pa[0], pb[0]), max(pa[0], pb[0]), pb[1], pb[1])
+			else:
+				# pc = (pb[0], pa[1])
+				self.set_connect(pb[0], pb[0], min(pa[1], pb[1]), max(pa[1], pb[1]))
+				self.set_connect(min(pa[0], pb[0]), max(pa[0], pb[0]), pa[1], pa[1])
+
+		
+		# new recursion
+		self.connect(a+b)
+
+
+	def closest_room(self, room):
+		val, ref = self.room_dist(room, self.rooms[0]), self.rooms[0]
+		for b in self.rooms:
+			# skip trivial solution
+			if b == room:
+				continue
+
+			# check for minimum
+			if self.room_dist(room, b) < val:
+				val = self.room_dist(room, b)
+				ref = b
+
+		return ref
+
+
+
+	def room_dist(self, a, b):
+		# pa is pixel of room a
+		return min(self.manhatten(pa, pb) for pa in a for pb in b)
+
+
+	def room_dist_pair(self, a, b):
+		val = float('infinity')
+		for pa in a:
+			for pb in b:
+				if self.manhatten(pa, pb) < val:
+					val = self.manhatten(pa, pb)
+					refa = [pa]
+					refb = [pb]
+				elif self.manhatten(pa, pb) == val:
+					refa.append(pa)
+					refb.append(pb)
+		
+		k = randint(0, len(refa)-1)
+
+		return refa[k], refb[k]
+
+	def manhatten(self, pa, pb):
+		return abs(pa[0]-pb[0]) + abs(pa[1]-pb[1])
+
+
+		
+if __name__ == '__main__':
+	import pprint;
+	gen = GenerateMap()
+	pprint.pprint(gen.map)
+
+
+
+class GenerateMap2(object):
+	def __init__(self, x, y):
+		self.x, self.y = (300, 300)
+		self.map = [[0]*self.y for i in range(self.x)]
+		for _ in range(10):
+			x1, x2 = sorted(sample(range(0,self.x), 2))
+			y1, y2 = sorted(sample(range(0,self.y), 2))
+			for xx in range(x1,x2):
+				for yy in range(y1,y2):
+					self.map[xx][yy] = 1
+
 
 
 
@@ -149,7 +258,7 @@ class GenerateMapTetris(object):
 
 
 	def set_room(self, xlo, xhi, ylo, yhi):
-		print xlo, xhi, ylo, yhi
+		# print xlo, xhi, ylo, yhi
 
 		for x in range(xhi-xlo):
 			for y in range(yhi-ylo):
@@ -166,22 +275,3 @@ class GenerateMapTetris(object):
 			return self.x - x, self.y - y
 		elif c == 3:
 			return y, self.y - x
-
-		
-if __name__ == '__main__':
-	import pprint;
-	gen = GenerateMap()
-	pprint.pprint(gen.map)
-
-
-
-class GenerateMap2(object):
-	def __init__(self, x, y):
-		self.x, self.y = (300, 300)
-		self.map = [[0]*self.y for i in range(self.x)]
-		for _ in range(10):
-			x1, x2 = sorted(sample(range(0,self.x), 2))
-			y1, y2 = sorted(sample(range(0,self.y), 2))
-			for xx in range(x1,x2):
-				for yy in range(y1,y2):
-					self.map[xx][yy] = 1
