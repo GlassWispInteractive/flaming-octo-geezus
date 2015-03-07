@@ -22,9 +22,9 @@ class World(object):
 	cam = 3
 
 	@classmethod
-	def init(cls):
-		cls.cur_level = cls.gen_new_level(100, 60)
-		cls.player.init((8,8))
+	def init(cls, world_size):
+		cls.cur_level = cls.gen_new_level(world_size)
+		cls.player.init((8,8), cls)
 
 		## LOAD pre-made TEST DUNGEON
 		#import test_dungeon
@@ -32,7 +32,7 @@ class World(object):
 		#cls.cur_level = 0
 
 	@classmethod
-	def gen_new_level(cls, x, y):
+	def gen_new_level(cls, (x, y)):
 		gen = mapgen.GenerateMap(x,y)
 		dung = dungeon.Dungeon(x, y, gen.map)
 		cls.dungeons.append(dung)

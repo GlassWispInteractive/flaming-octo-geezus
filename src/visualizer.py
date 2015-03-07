@@ -48,7 +48,7 @@ class Visualization(object):
 		cls.render_playerSprite()
 
 		#cls.MAIN.blit(cls.W.dungeons[cls.W.cur_level].surf, (0,0))
-		cls.render_map(i, cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
+		cls.render_map(cls.W.cam_x * SCALE, cls.W.cam_y * SCALE)
 		pygame.draw.circle(cls.MAIN, (255,0,0), (0,0), 10)
 		pygame.draw.circle(cls.MAIN, (255,0,0), cls.W.dungeons[cls.W.cur_level].surf.get_size(), 10)
 

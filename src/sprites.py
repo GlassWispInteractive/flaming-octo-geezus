@@ -24,7 +24,7 @@ class MultiSprite(object):
 		   target is the target surface and
 		   t_x and t_y are the positions to where the subsprite shall be blitted.
 		   All coordinates are scaled accordingly inside this funtion."""
-		# make this _a little_ more readable ^^
+		# make this a _little_ bit more readable ^^
 		rx, ry = self.res_x, self.res_y
 		offX, offY = self.offX, self.offY
 		gX, gY = self.gX, self.gY

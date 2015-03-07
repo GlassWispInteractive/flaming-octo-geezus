@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *-*
 import pygame
-import world
 from pygame.locals import QUIT, KEYUP, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_UP, K_DOWN, K_SPACE, K_RETURN, K_p
+
+import world
+from const import *
 
 MOVEMENT_KEYS = [K_LEFT, K_RIGHT, K_UP, K_DOWN]
 ACTION_KEYS = [K_SPACE]

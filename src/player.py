@@ -4,17 +4,15 @@
 from const import *
 from helper import *
 import sprites
-import world
 
 class Player(object):
 	"""class for player; everything static"""
 
-	W = world.World
-
 	@classmethod
-	def init(cls, (x, y)):
+	def init(cls, (x, y), world):
 		cls.x = x
 		cls.y = y
+		cls.W = world
 		cls.commands = [] # list of commands to execute; EventHandler writes to this
 		cls.sprite = sprites.CharSetMultiSprite("graphics/Chara1.png", 24,32, 4,0, 72,128)
 
