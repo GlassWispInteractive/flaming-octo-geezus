@@ -23,8 +23,8 @@ def init_resources():
 	global SOUNDS
 	global FONTS
 	GRAPHICS = { path.basename(path.splitext(s)[0])
-		: pygame.image.load(s).convert_alpha() for s in glob.glob("fonts/*.png") }
+		: pygame.image.load(s).convert_alpha() for s in glob.glob("graphics/*.png") }
 	SOUNDS = None
 	FONTS = {
-				'HUD' : pygame.font.Font("resources/pixel.ttf", 20)
+				'HUD' : pygame.font.Font("fonts/pixel.ttf", 20)
 			}
