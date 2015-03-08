@@ -23,8 +23,8 @@ class Player(object):
 			cls.x = x
 			cls.y = y
 
-			cls.W.cam_x = min(cls.x, m.size_x - X / SCALE + cls.W.cam)
-			cls.W.cam_y = min(cls.y, m.size_y - Y / SCALE + cls.W.cam)
+			cls.W.cam_x = min(cls.x, m.size_x - X / SCALE) - cls.W.cam
+			cls.W.cam_y = min(cls.y, m.size_y - Y / SCALE) - cls.W.cam
 			# print cls.W.cam_x, m.size_x, X / SCALE, cls.W.cam
 
 		cls.commands = [] # list of commands to execute; EventHandler writes to this; not in use yet
