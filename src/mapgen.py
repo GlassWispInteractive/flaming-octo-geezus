@@ -4,6 +4,7 @@
 from random import randint, sample, choice
 
 from const import *
+from pill import Pill
 
 R = lambda x: int(round(x)) # wrapper for rounding
 
@@ -20,10 +21,13 @@ class GenerateMap(object):
 		self.rooms = []
 		self.persistent_rooms = []
 		self.persistent_corridors = []
+		self.pills = []
+		self.monster = []
 
 		# generation calls
 		self.split(0, self.x, 0, self.y, ITER)
 		self.connect(self.rooms[randint(0, len(self.rooms)-1)])
+		# self.spawn_objects()
 
 	def split(self, xlo, xhi, ylo, yhi, iteration):
 		# too small
@@ -54,6 +58,7 @@ class GenerateMap(object):
 			# recursive room generation
 			self.split(xlo, var, ylo, yhi, iteration-1)
 			self.split(var, xhi, ylo, yhi, iteration-1)
+
 		else:
 			# Horizontal Split "|"
 			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)))
@@ -72,6 +77,7 @@ class GenerateMap(object):
 				room.append((x,y))
 
 		self.rooms.append(room)
+		self.spawn_objects(room)
 
 		# export rooms for drawing
 		self.persistent_rooms.append( ( (xlo,ylo), (xhi,ylo), (xlo,yhi), (xhi,yhi) ) )
@@ -160,6 +166,10 @@ class GenerateMap(object):
 	def manhatten(self, pa, pb):
 		return abs(pa[0]-pb[0]) + abs(pa[1]-pb[1])
 
+	def spawn_objects(self, room):
+		x, y = sample(room, 1)[0]
+		self.pills.append(Pill(x, y, 1))
+
 
 class GenerateMap2(object):
 	def __init__(self, x, y):
@@ -204,7 +214,6 @@ class GenerateMapTetris(object):
 						if self.map[z][d]:
 							break
 						depth[z] = d
-					# print depth[z]
 
 				# calc deepest size
 				val, ind = min(depth[:room[0]]), 0
@@ -213,10 +222,8 @@ class GenerateMapTetris(object):
 						ind = k
 
 				if depth > room[0]:
-					# print ind, ind + room[0], val - room[1], val
 					self.set_room(ind, ind + room[0], val - room[1], val)
 					break
-				# print ind, depth[ind]
 
 	def rand_room(self, lo, hi):
 		return randint(lo, hi), randint(lo, hi)
