@@ -9,8 +9,6 @@ from const import *
 from helper import *
 from resources import GRAPHICS, SOUNDS, FONTS
 import world
-import player
-import happiness
 
 
 # Static Visualization Class
@@ -19,8 +17,8 @@ class Visualization(object):
 
 	# maybe some global class values here...
 	W = world.World
-	P = player.Player
-	H = happiness.HappinessScale
+	P = W.player
+	H = W.happiness
 
 	@classmethod
 	def init(cls):

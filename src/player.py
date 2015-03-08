@@ -32,6 +32,40 @@ class Player(object):
 		cls.sprite = sprites.CharSetMultiSprite("graphics/TheRevolverTrans.png", 32,32, 0,0, 0,0)
 		cls.orientation = 1
 
+
+	@classmethod
+	def handle_movement(cls):
+		dung = cls.W.cur_dungeon()
+
+		#print "called handle_movement"
+		for com in cls.commands:
+			#print 'got key', k
+			if com == Dir.W:
+				cls.orientation = 1
+				if cls.x > 0 and dung.level[cls.x-1][cls.y] != 0:
+					cls.x -= 1
+				if cls.x > cls.W.cam - 1 and cls.x - cls.W.cam < cls.W.cam_x:
+					cls.W.cam_x -= 1
+			if com == Dir.E:
+				cls.orientation = 0
+				if cls.x < dung.size_x - 1 and dung.level[cls.x+1][cls.y] != 0:
+					cls.x += 1
+				if cls.x + cls.W.cam - 1 < dung.size_x and cls.x + cls.W.cam > cls.W.cam_x + X / SCALE:
+					cls.W.cam_x += 1
+			if com == Dir.N:
+				if cls.y > 0 and dung.level[cls.x][cls.y-1] != 0:
+					cls.y -= 1
+				if cls.y > cls.W.cam - 1 and cls.y - cls.W.cam < cls.W.cam_y:
+					cls.W.cam_y -= 1
+			if com == Dir.S:
+				if cls.y < dung.size_y - 1 and dung.level[cls.x][cls.y+1] != 0:
+					cls.y += 1
+				if cls.y + cls.W.cam - 1 < dung.size_y and cls.y + cls.W.cam > cls.W.cam_y + Y / SCALE:
+					cls.W.cam_y += 1
+				# print cls.y, cls.W.cam, cls.W.cam_y, Y / SCALE, dung.size_y
+		cls.commands = [] # ohne das gibts seltsame glitches ^^
+
+
 	# not in work
 	# @classmethod
 	# def move(cls):

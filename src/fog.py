@@ -28,7 +28,8 @@ pygame.mixer.music.play(-1)
 while wor.RUN:
 
 	evs = evh.filter_keydown()
-	evh.handle_movement(evs)
+	evh.movement2player(evs)
+	wor.player.handle_movement()
 
 	vis.render_main()
 

@@ -6,6 +6,7 @@ import pygame
 from const import *
 from helper import *
 import player
+import happiness
 import dungeon
 import mapgen
 
@@ -17,6 +18,7 @@ class World(object):
 	dungeons = [] # list of instances of Dungeon (see below) objects
 	cur_level = -float('inf')
 	player = player.Player # overwrite module with Player class (!)
+	happiness = happiness.HappinessScale # dito
 	tick = 0
 	cam_x, cam_y = 0, 0 # world offset
 	cam = 5

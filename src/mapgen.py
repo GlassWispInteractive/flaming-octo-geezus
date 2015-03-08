@@ -39,12 +39,6 @@ class GenerateMap(object):
 			ylo += min(randint(0, R((yhi-ylo)*0.1)), 3)
 			yhi -= min(randint(0, R((yhi-ylo)*0.1)), 3)
 
-
-			# values = sample(range(xlo, xhi), 2) # [randint(xlo, xhi) for _ in range(3)]
-			# xlo, xhi = min(values), max(values)
-			# values = sample(range(ylo, yhi), 2)
-			# ylo, yhi = min(values), max(values)
-
 			# set room
 			self.set_room(xlo, xhi-1, ylo, yhi-1)
 
@@ -60,30 +54,6 @@ class GenerateMap(object):
 			# recursive room generation
 			self.split(xlo, var, ylo, yhi, iteration-1)
 			self.split(var, xhi, ylo, yhi, iteration-1)
-
-			# check if one did not return a room
-			# if not a:
-			# 	return b
-
-			# if not b:
-			# 	return a
-
-			# # a, b yield rooms
-			# # if a[3] > b[3]:
-			# # 	a,b = b,a
-			# rangea = set(range(a[0], a[1]+1))
-			# rangeb = set(range(b[0], b[1]+1))
-			
-			# poss = rangea.intersection(rangeb)
-			# if poss:
-			# 	x = list(choice(poss))
-			# 	ylo = a[3]
-			# 	yhi = b[2]
-			# 	self.set_room(x, x, ylo, yhi)
-			# else:
-			# 	print a, rangea
-			# 	print b, rangeb
-			# 	print "this means work"
 		else:
 			# Horizontal Split "|"
 			var = R(ylo + (yhi-ylo)*0.45 + randint(0, R((yhi-ylo)*0.1)))
@@ -91,9 +61,6 @@ class GenerateMap(object):
 			# recursive room generation
 			self.split(xlo, xhi, ylo, var, iteration-1)
 			self.split(xlo, xhi, var, yhi, iteration-1)
-				
-
-
 
 	def set_room(self, xlo, xhi, ylo, yhi):
 		# print "room", xlo, xhi, ylo, yhi
@@ -153,10 +120,8 @@ class GenerateMap(object):
 				self.set_connect(pb[0], pb[0], min(pa[1], pb[1]), max(pa[1], pb[1]))
 				self.set_connect(min(pa[0], pb[0]), max(pa[0], pb[0]), pa[1], pa[1])
 
-		
 		# new recursion
 		self.connect(a+b)
-
 
 	def closest_room(self, room):
 		val, ref = self.room_dist(room, self.rooms[0]), self.rooms[0]
@@ -172,12 +137,9 @@ class GenerateMap(object):
 
 		return ref
 
-
-
 	def room_dist(self, a, b):
 		# pa is pixel of room a
 		return min(self.manhatten(pa, pb) for pa in a for pb in b)
-
 
 	def room_dist_pair(self, a, b):
 		val = float('infinity')
@@ -199,14 +161,6 @@ class GenerateMap(object):
 		return abs(pa[0]-pb[0]) + abs(pa[1]-pb[1])
 
 
-		
-if __name__ == '__main__':
-	import pprint;
-	gen = GenerateMap()
-	pprint.pprint(gen.map)
-
-
-
 class GenerateMap2(object):
 	def __init__(self, x, y):
 		self.x, self.y = (300, 300)
@@ -217,10 +171,6 @@ class GenerateMap2(object):
 			for xx in range(x1,x2):
 				for yy in range(y1,y2):
 					self.map[xx][yy] = 1
-
-
-
-
 
 
 class GenerateMapTetris(object):
@@ -268,18 +218,14 @@ class GenerateMapTetris(object):
 					break
 				# print ind, depth[ind]
 
-
 	def rand_room(self, lo, hi):
 		return randint(lo, hi), randint(lo, hi)
 
-
 	def set_room(self, xlo, xhi, ylo, yhi):
 		# print xlo, xhi, ylo, yhi
-
 		for x in range(xhi-xlo):
 			for y in range(yhi-ylo):
 				self.map[xlo+x][ylo+y] = 1
-
 
 	def rotate(self, x, y, c):
 		"MAGIC MAGIC MAGIC MAGIC MAGIC MAGIC <3"
@@ -291,3 +237,9 @@ class GenerateMapTetris(object):
 			return self.x - x, self.y - y
 		elif c == 3:
 			return y, self.y - x
+
+
+if __name__ == '__main__':
+	import pprint;
+	gen = GenerateMap()
+	pprint.pprint(gen.map)
