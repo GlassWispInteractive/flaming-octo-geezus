@@ -22,8 +22,9 @@ wor.init((DUNGEON_X,DUNGEON_Y))
 vis.init(wor)
 resources.init_resources()
 
-pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")
-pygame.mixer.music.play(-1)
+if MUSIC:
+	pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")
+	pygame.mixer.music.play(-1)
 
 while wor.RUN:
 
