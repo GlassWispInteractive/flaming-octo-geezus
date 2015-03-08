@@ -56,5 +56,6 @@ target/
 # CUSTOM
 .c9
 dungeon_gens
-
 .idea
+circle_rect_intersection*
+fatcow*

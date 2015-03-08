@@ -15,12 +15,12 @@ import resources
 pygame.init()
 TIMER = pygame.time.Clock()
 
+#resources.init_resources()
 evh = events.EventHandler
 wor = world.World
 vis = visualizer.Visualization
 wor.init((DUNGEON_X,DUNGEON_Y))
 vis.init(wor)
-resources.init_resources()
 
 if MUSIC:
 	pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")
@@ -36,5 +36,7 @@ while wor.RUN:
 
 	TIMER.tick(FPS)
 	wor.tick = (wor.tick % (FPS*100)) + 1
+
+	#print pygame.time.get_ticks(), TIMER.get_fps()
 
 pygame.quit()
