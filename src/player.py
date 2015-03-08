@@ -79,8 +79,8 @@ class Player(object):
 				continue
 
 			if p.hp != 0:
-				cls.W.H.lvl -= p.hp
-				cls.W.H.lvl += randint(2, 5)
+				cls.W.H.lvl += (4-p.hp) * randint(2, 4) # +6,9,12 -12,18,24
+				# cls.W.H.lvl += randint(4, 5)
 				dung.pills
 
 			dung.pills.remove(p)
