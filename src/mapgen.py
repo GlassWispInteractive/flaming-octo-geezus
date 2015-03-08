@@ -5,8 +5,7 @@ from random import randint, sample, choice
 
 from const import *
 from pill import Pill
-
-R = lambda x: int(round(x)) # wrapper for rounding
+from helper import R
 
 ITER = 12
 

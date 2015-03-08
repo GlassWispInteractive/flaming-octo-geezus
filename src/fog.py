@@ -5,9 +5,9 @@ import pygame
 from pygame.locals import K_ESCAPE, KEYUP, KEYDOWN, QUIT, K_LEFT, K_RIGHT, K_SPACE, K_a, K_d, K_w, K_s, K_f, K_UP, K_DOWN
 
 import world
+import events
 import player
 import visualizer
-import events
 from const import *
 from helper import *
 import resources
@@ -20,7 +20,7 @@ evh = events.EventHandler
 wor = world.World
 vis = visualizer.Visualization
 wor.init((DUNGEON_X,DUNGEON_Y))
-vis.init(wor)
+vis.init(wor, Mode.Menu)
 
 if MUSIC:
 	pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")

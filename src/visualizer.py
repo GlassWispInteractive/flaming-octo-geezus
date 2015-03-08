@@ -8,22 +8,21 @@ import glob
 from const import *
 from helper import *
 from resources import *
-
+import menu
 
 # Static Visualization Class
 class Visualization(object):
 	"""Contains surfaces and everything that is important for visualization"""
 
 	@classmethod
-	def init(cls, world):
+	def init(cls, world, mode):
 		cls.W = world
+		cls.MODE = mode
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
 		cls.cone = pygame.image.load('graphics/visibility_cone2000.png')
-
-	@classmethod
-	def class_foo(cls,x):
-		print "executing class_foo(%s,%s)"%(cls,x)
+		cls.MENU = menu.Menu
+		cls.MENU.init()
 
 	@classmethod
 	def draw_text(cls, text, font, pos, color):
@@ -34,6 +33,22 @@ class Visualization(object):
 
 	@classmethod
 	def render_main(cls):
+		if cls.MODE == Mode.Menu:
+			cls.render_menu()
+		elif cls.MODE == Mode.InGame:
+			cls.render_game()
+		#... more modes to come
+		else:
+			print "INVALID MODE"
+		pygame.display.update()
+
+	@classmethod
+	def render_menu(cls):
+		cls.MAIN.fill(BABY_BLUE) # background also blue
+		cls.MENU.draw_menu(cls.MAIN)
+
+	@classmethod
+	def render_game(cls):
 		cls.MAIN.fill(BABY_BLUE) # background also blue
 
 		# HERE BE RENDERING CODE
@@ -48,7 +63,6 @@ class Visualization(object):
 		cls.W.H.refresh()
 		cls.render_happiness()
 
-		pygame.display.update()
 
 	@classmethod
 	def render_map(cls, surf, x, y):

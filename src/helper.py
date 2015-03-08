@@ -3,6 +3,8 @@
 
 from const import *
 
+R = lambda x: int(round(x)) # wrapper for rounding
+
 def enum(*seq, **named): return type('Enum', (), dict(zip(seq, range(len(seq))), **named)) ## dont even ask
 
 # possible modes (menu, game, highscore?)
