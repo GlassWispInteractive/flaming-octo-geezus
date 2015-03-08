@@ -89,7 +89,7 @@ class Player(object):
 		elif direc == Dir.S:
 			cls.y += 1
 		elif direc == Dir.W:
-			cls.y -= 1
+			cls.x -= 1
 
 	#@classmethod
 	#def prepare_movement(cls, direc):
