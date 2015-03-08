@@ -5,7 +5,7 @@ import pygame
 from math import pi
 
 from const import *
-from resources import GRAPHICS, SOUNDS, FONTS
+from resources import *
 
 """
 Possible values for Entries in a level variable:
@@ -18,14 +18,6 @@ Possible values for Entries in a level variable:
 
 """
 
-
-BLACK = (  0,   0,   0)
-WHITE = (255, 255, 255)
-BLUE =  (  0,   0, 255)
-GREEN = (  0, 255,   0)
-RED =   (255,   0,   0)
-
-
 class Dungeon(object):
 
 	idx2color = {
@@ -36,13 +28,15 @@ class Dungeon(object):
 		4 : (200,200,200)
 	}
 
-	def __init__(self, x, y, m, rooms=None, corridors=None):
+	def __init__(self, x, y, m, rooms=[], corridors=[]):
 		"""Generate a Surface for the dungeon.
 		x and y are the dimensions,
 		m is the 2-dimensional array with {0,1}"""
 		self.size_x = x
 		self.size_y = y
 		self.level = m # 2 dimensional int array {0,1}
+		self.rooms = rooms
+		self.corridors = corridors
 		# A Dungeon surface only needs to be initialized ONCE
 
 		s = SCALE
@@ -64,7 +58,7 @@ class Dungeon(object):
 		#print rooms
 		#print sorted(rooms)
 
-		for room in rooms:
+		for room in self.rooms:
 			topleft, topright, bottomleft, bottomright = [(SCALE*x, SCALE*y) for (x,y) in room]
 
 			rect = pygame.Rect(0, 0, 2*s, 2*s)
@@ -95,10 +89,9 @@ class Dungeon(object):
 			]
 			pygame.draw.polygon(self.surf, WHITE, points)
 
-		#rainbow = pygame.transform.scale(GRAPHICS['rainbow_blur'], (SCALE,SCALE))
 		rainbowV = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur.png'), (SCALE, SCALE))
 		rainbowH = pygame.transform.scale(pygame.image.load('graphics/rainbow_blur90.png'), (SCALE, SCALE))
-		for corridor in corridors:
+		for corridor in self.corridors:
 			#print corridor
 			((xlo, ylo), (xhi, yhi)) = corridor
 			horizontal = (xlo==xhi)

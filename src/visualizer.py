@@ -7,7 +7,7 @@ import glob
 
 from const import *
 from helper import *
-from resources import GRAPHICS, SOUNDS, FONTS
+from resources import *
 import world
 
 
@@ -39,7 +39,7 @@ class Visualization(object):
 
 	@classmethod
 	def render_main(cls):
-		cls.MAIN.fill((0,0,0))
+		cls.MAIN.fill(BABY_BLUE) # background also blue
 
 		# HERE BE RENDERING CODE
 

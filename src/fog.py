@@ -20,7 +20,7 @@ wor = world.World
 vis = visualizer.Visualization
 wor.init((DUNGEON_X,DUNGEON_Y))
 vis.init()
-resources.init()
+resources.init_resources()
 
 pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")
 pygame.mixer.music.play(-1)

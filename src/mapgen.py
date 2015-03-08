@@ -7,7 +7,7 @@ from const import *
 
 R = lambda x: int(round(x)) # wrapper for rounding
 
-ITER = 8
+ITER = 12
 
 class GenerateMap(object):
 	"""class which is responsible for the world generation"""
