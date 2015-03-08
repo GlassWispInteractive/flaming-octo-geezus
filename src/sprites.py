@@ -19,17 +19,18 @@ class MultiSprite(object):
 		self.gX = gX
 		self.gY = gY
 
-	def draw2dungeon(self, x, y, target, t_x=SCALE, t_y=SCALE): # Dont even ask ^^
+	def draw2dungeon(self, x, y, target, t_x=SCALE, t_y=SCALE, pX=0, pY=0): # Dont even ask ^^
 		"""x and y are the position of the subsprite in the MultiSprite.
 		   target is the target surface and
 		   t_x and t_y are the positions to where the subsprite shall be blitted.
-		   All coordinates are scaled accordingly inside this funtion."""
+		   All coordinates are scaled accordingly inside this funtion.
+		   pX and pY are additional Pixel Offsets because we can"""
 		# make this a _little_ bit more readable ^^
 		rx, ry = self.res_x, self.res_y
 		offX, offY = self.offX, self.offY
 		gX, gY = self.gX, self.gY
 
-		subsprite_rect = (gX+rx*x, gY+ry*y, rx, ry) # square around the sub sprite we want to draw
+		subsprite_rect = (gX+rx*x+pX, gY+ry*y+pY, rx, ry) # square around the sub sprite we want to draw
 		topleft = (t_x*SCALE+offX, t_y*SCALE+offY) # topleft target coordinates; here goes the subsprite
 		#print subsprite_rect, topleft
 		target.blit(self.sprite, topleft, subsprite_rect)

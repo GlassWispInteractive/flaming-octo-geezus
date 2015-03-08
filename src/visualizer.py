@@ -74,7 +74,7 @@ class Visualization(object):
 
 	@classmethod
 	def render_playerSprite(cls, surf): # player sprite
-		cls.W.P.sprite.draw2dungeon(cls.W.P.orientation,0, surf, cls.W.P.x,cls.W.P.y)
+		cls.W.P.sprite.draw2dungeon(cls.W.P.orientation,0, surf, cls.W.P.x,cls.W.P.y, cls.W.P.pX, cls.W.P.pY)
 
 	@classmethod
 	def render_happiness(cls):
