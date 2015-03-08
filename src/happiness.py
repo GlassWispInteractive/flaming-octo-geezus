@@ -15,4 +15,5 @@ class HappinessScale(object):
 	def refresh(cls):
 		# 20 x Y
 		cls.surf.fill((200,200,200))
+		
 		pygame.draw.rect(cls.surf, (227,20,20), pygame.Rect((5,Y-cls.lvl*((Y-20)/100)) , (10,cls.lvl*((Y-20)/100))))
