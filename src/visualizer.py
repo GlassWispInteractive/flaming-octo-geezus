@@ -19,6 +19,7 @@ class Visualization(object):
 		cls.W = world
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
+		cls.cone = pygame.image.load('graphics/visibility_cone2000.png')
 
 	@classmethod
 	def class_foo(cls,x):
@@ -41,10 +42,11 @@ class Visualization(object):
 		map_surf_edit = cls.W.cur_dungeon().pills_to_map()
 		# cls.render_player2map(map_surf_edit)
 		cls.render_playerSprite(map_surf_edit)
+		cls.render_cone(map_surf_edit)
 		cls.render_map(map_surf_edit, -cls.W.cam_x * SCALE, -cls.W.cam_y * SCALE)
 
 		cls.W.H.refresh()
-		cls.MAIN.blit(cls.W.H.surf, (X-20,0))
+		cls.render_happiness()
 
 		pygame.display.update()
 
@@ -53,10 +55,21 @@ class Visualization(object):
 		cls.MAIN.blit(surf, (x,y))
 
 	@classmethod
-	def render_player2map(cls, surf):
+	def render_player2map(cls, surf): # red dot
 		pygame.draw.circle(surf, (255,0,0),
 			field2coor(cls.W.P.x, cls.W.P.y, SCALE), SCALE/2-1)
 
 	@classmethod
-	def render_playerSprite(cls, surf):
+	def render_playerSprite(cls, surf): # player sprite
 		cls.W.P.sprite.draw2dungeon(cls.W.P.orientation,0, surf, cls.W.P.x,cls.W.P.y)
+
+	@classmethod
+	def render_happiness(cls):
+		cls.MAIN.blit(cls.W.H.surf, (X-20,0))
+
+	@classmethod
+	def render_cone(cls, surf):
+		cone_size_x, cone_size_y = cls.cone.get_size()
+		coor = field2coor(cls.W.P.x, cls.W.P.y, SCALE)
+		rect = (coor[0]-cone_size_x/2, coor[1]-cone_size_y/2)
+		surf.blit(cls.cone, rect)

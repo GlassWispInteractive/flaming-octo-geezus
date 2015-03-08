@@ -37,4 +37,6 @@ while wor.RUN:
 	TIMER.tick(FPS)
 	wor.tick = (wor.tick % (FPS*100)) + 1
 
+	#print pygame.time.get_ticks(), TIMER.get_fps()
+
 pygame.quit()
