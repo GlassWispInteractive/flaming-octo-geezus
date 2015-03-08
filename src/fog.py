@@ -19,8 +19,8 @@ TIMER = pygame.time.Clock()
 evh = events.EventHandler
 wor = world.World
 vis = visualizer.Visualization
-wor.init((DUNGEON_X,DUNGEON_Y))
-vis.init(wor, Mode.Menu)
+wor.init((DUNGEON_X,DUNGEON_Y), Mode.Menu)
+vis.init(wor)
 
 if MUSIC:
 	pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")

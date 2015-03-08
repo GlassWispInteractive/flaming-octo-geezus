@@ -23,6 +23,9 @@ class EventHandler(object):
 			if e.type == QUIT or (e.type == KEYDOWN and e.key == K_ESCAPE):
 				cls.W.RUN = False
 				continue
+			elif cls.W.MODE == Mode.Menu and (e.type == KEYDOWN and e.key == K_RETURN):
+				cls.W.MODE = Mode.InGame
+				continue
 			elif e.type not in [KEYDOWN, KEYUP] or e.key not in KEYS:
 				continue
 			if e.type == KEYDOWN:

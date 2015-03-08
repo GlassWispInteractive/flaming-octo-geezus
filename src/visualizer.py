@@ -15,9 +15,8 @@ class Visualization(object):
 	"""Contains surfaces and everything that is important for visualization"""
 
 	@classmethod
-	def init(cls, world, mode):
+	def init(cls, world):
 		cls.W = world
-		cls.MODE = mode
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
 		cls.cone = pygame.image.load('graphics/visibility_cone2000.png')
@@ -33,9 +32,9 @@ class Visualization(object):
 
 	@classmethod
 	def render_main(cls):
-		if cls.MODE == Mode.Menu:
+		if cls.W.MODE == Mode.Menu:
 			cls.render_menu()
-		elif cls.MODE == Mode.InGame:
+		elif cls.W.MODE == Mode.InGame:
 			cls.render_game()
 		#... more modes to come
 		else:

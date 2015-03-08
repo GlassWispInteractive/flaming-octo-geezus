@@ -24,10 +24,11 @@ class World(object):
 	cam = 5
 
 	@classmethod
-	def init(cls, world_size):
+	def init(cls, world_size, mode):
 		cls.cur_level = cls.gen_new_level(world_size)
 		cls.P.init(cls, None) # generate random start position in player
 		cls.H.init()
+		cls.MODE = mode
 
 		## LOAD pre-made TEST DUNGEON
 		#import test_dungeon
