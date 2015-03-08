@@ -66,4 +66,4 @@ class Visualization(object):
 
 	@classmethod
 	def render_playerSprite(cls, surf):
-		cls.P.sprite.draw2dungeon(1,2, surf, cls.P.x,cls.P.y)
+		cls.P.sprite.draw2dungeon(cls.P.orientation,0, surf, cls.P.x,cls.P.y)

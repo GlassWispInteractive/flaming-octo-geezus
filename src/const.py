@@ -4,9 +4,9 @@
 ## GLOBAL CONSTANTS
 X = 960
 Y = 640
-DUNGEON_X = 40
+DUNGEON_X = 60
 DUNGEON_Y = 40
-FPS = 10
-SCALE = 32 ## Only Change for Testing
+FPS = 15
+SCALE = 32 ## Only Change for Testing (pls ^^)
 ## Standard: 32
 Title = 'Flaming Octo Geezus'

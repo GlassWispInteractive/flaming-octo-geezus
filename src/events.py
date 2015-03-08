@@ -40,12 +40,14 @@ class EventHandler(object):
 		for k in keys:
 			#print 'got key', k
 			if k == K_LEFT:
+				cls.W.player.orientation = 1
 				if cls.W.player.x > 0 and dung.level[cls.W.player.x-1][cls.W.player.y] != 0:
 					cls.W.player.x -= 1
 
 				if cls.W.player.x > cls.W.cam - 1 and cls.W.player.x - cls.W.cam < cls.W.cam_x:
 				 	cls.W.cam_x -= 1
 			if k == K_RIGHT:
+				cls.W.player.orientation = 0
 				if cls.W.player.x < dung.size_x - 1 and dung.level[cls.W.player.x+1][cls.W.player.y] != 0:
 					cls.W.player.x += 1				
 
