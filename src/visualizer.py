@@ -37,7 +37,8 @@ class Visualization(object):
 
 		# HERE BE RENDERING CODE
 
-		map_surf_edit = cls.W.cur_dungeon().surf.copy() # dont modify the original surface, always draw on a copy
+		# map_surf_edit = cls.W.cur_dungeon().surf.copy() # dont modify the original surface, always draw on a copy
+		map_surf_edit = cls.W.cur_dungeon().pills_to_map()
 		# cls.render_player2map(map_surf_edit)
 		cls.render_playerSprite(map_surf_edit)
 		cls.render_map(map_surf_edit, -cls.W.cam_x * SCALE, -cls.W.cam_y * SCALE)

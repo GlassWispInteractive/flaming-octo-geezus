@@ -77,7 +77,7 @@ class GenerateMap(object):
 				room.append((x,y))
 
 		self.rooms.append(room)
-		self.spawn_objects(room)
+		self.spawn_objects(room, 1)
 
 		# export rooms for drawing
 		self.persistent_rooms.append( ( (xlo,ylo), (xhi,ylo), (xlo,yhi), (xhi,yhi) ) )
@@ -97,6 +97,10 @@ class GenerateMap(object):
 
 		# export corridors
 		self.persistent_corridors.append( ( (xlo,ylo), (xhi,yhi) ) )
+
+		# spawn hard pills based on luck and length
+		if randint(0, 3) * randint(0, self.manhatten((xlo, ylo), (xhi, yhi))-1) > 0:
+			self.spawn_objects(corridor, 10)
 
 	def connect(self, a):
 		# everything is connected
@@ -166,9 +170,13 @@ class GenerateMap(object):
 	def manhatten(self, pa, pb):
 		return abs(pa[0]-pb[0]) + abs(pa[1]-pb[1])
 
-	def spawn_objects(self, room):
+	def spawn_objects(self, room, hp):
+		# error prevention
+		if not room:
+			return
+
 		x, y = sample(room, 1)[0]
-		self.pills.append(Pill(x, y, 1))
+		self.pills.append(Pill(x, y, hp))
 
 
 class GenerateMap2(object):

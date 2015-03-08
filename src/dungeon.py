@@ -28,7 +28,7 @@ class Dungeon(object):
 		4 : (200,200,200)
 	}
 
-	def __init__(self, x, y, m, rooms=[], corridors=[]):
+	def __init__(self, x, y, m, rooms=[], corridors=[], pills=[]):
 		"""Generate a Surface for the dungeon.
 		x and y are the dimensions,
 		m is the 2-dimensional array with {0,1}"""
@@ -37,6 +37,7 @@ class Dungeon(object):
 		self.level = m # 2 dimensional int array {0,1}
 		self.rooms = rooms
 		self.corridors = corridors
+		self.pills = pills
 		# A Dungeon surface only needs to be initialized ONCE
 
 		s = SCALE
@@ -103,3 +104,15 @@ class Dungeon(object):
 			else:
 				for x in range(xlo+1, xhi):
 					self.surf.blit(rainbowV, (SCALE*x, SCALE*ylo))
+
+	def pills_to_map(self):
+		pill_default_sprite = pygame.transform.scale(pygame.image.load('graphics/pill.png'), (SCALE, SCALE))
+		pill_easy_sprite = pygame.transform.scale(pygame.image.load('graphics/pill_add.png'), (SCALE, SCALE))
+		pill_hard_sprite = pygame.transform.scale(pygame.image.load('graphics/pill_delete.png'), (SCALE, SCALE))
+
+		edit_surf = self.surf.copy()
+		for pill in self.pills:
+			sprite = pill_easy_sprite if pill.hp == 1 else pill_hard_sprite
+			edit_surf.blit(sprite, (pill.x*SCALE, pill.y*SCALE))
+
+		return edit_surf

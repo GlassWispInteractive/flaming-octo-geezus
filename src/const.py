@@ -10,4 +10,4 @@ FPS = 15
 SCALE = 32 ## Only Change for Testing (pls ^^)
 ## Standard: 32
 Title = 'Flaming Octo Geezus'
-MUSIC = True
+MUSIC = False
