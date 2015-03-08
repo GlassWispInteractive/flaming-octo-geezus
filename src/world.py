@@ -17,8 +17,8 @@ class World(object):
 	RUN = True
 	dungeons = [] # list of instances of Dungeon (see below) objects
 	cur_level = -float('inf')
-	player = player.Player # overwrite module with Player class (!)
-	happiness = happiness.HappinessScale # dito
+	P = player.Player # overwrite module with Player class (!)
+	H = happiness.HappinessScale # dito
 	tick = 0
 	cam_x, cam_y = 0, 0 # world offset
 	cam = 5
@@ -26,7 +26,8 @@ class World(object):
 	@classmethod
 	def init(cls, world_size):
 		cls.cur_level = cls.gen_new_level(world_size)
-		cls.player.init(cls, None) # generate random start position in player
+		cls.P.init(cls, None) # generate random start position in player
+		cls.H.init()
 
 		## LOAD pre-made TEST DUNGEON
 		#import test_dungeon

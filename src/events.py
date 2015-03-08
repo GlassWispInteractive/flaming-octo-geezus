@@ -35,10 +35,10 @@ class EventHandler(object):
 	def movement2player(cls, keys):
 		for k in keys:
 			if k == K_UP:
-				cls.W.player.commands.append(Dir.N)
+				cls.W.P.commands.append(Dir.N)
 			if k == K_RIGHT:
-				cls.W.player.commands.append(Dir.E)
+				cls.W.P.commands.append(Dir.E)
 			if k == K_DOWN:
-				cls.W.player.commands.append(Dir.S)
+				cls.W.P.commands.append(Dir.S)
 			if k == K_LEFT:
-				cls.W.player.commands.append(Dir.W)
+				cls.W.P.commands.append(Dir.W)

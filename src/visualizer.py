@@ -8,23 +8,17 @@ import glob
 from const import *
 from helper import *
 from resources import *
-import world
 
 
 # Static Visualization Class
 class Visualization(object):
 	"""Contains surfaces and everything that is important for visualization"""
 
-	# maybe some global class values here...
-	W = world.World
-	P = W.player
-	H = W.happiness
-
 	@classmethod
-	def init(cls):
+	def init(cls, world):
+		cls.W = world
 		pygame.display.set_caption(Title)
 		cls.MAIN = pygame.display.set_mode((X, Y))
-		cls.H.init()
 
 	@classmethod
 	def class_foo(cls,x):
@@ -48,8 +42,8 @@ class Visualization(object):
 		cls.render_playerSprite(map_surf_edit)
 		cls.render_map(map_surf_edit, -cls.W.cam_x * SCALE, -cls.W.cam_y * SCALE)
 
-		cls.H.refresh()
-		cls.MAIN.blit(cls.H.surf, (X-20,0))
+		cls.W.H.refresh()
+		cls.MAIN.blit(cls.W.H.surf, (X-20,0))
 
 		pygame.display.update()
 
@@ -60,8 +54,8 @@ class Visualization(object):
 	@classmethod
 	def render_player2map(cls, surf):
 		pygame.draw.circle(surf, (255,0,0),
-			field2coor(cls.P.x, cls.P.y, SCALE), SCALE/2-1)
+			field2coor(cls.W.P.x, cls.W.P.y, SCALE), SCALE/2-1)
 
 	@classmethod
 	def render_playerSprite(cls, surf):
-		cls.P.sprite.draw2dungeon(cls.P.orientation,0, surf, cls.P.x,cls.P.y)
+		cls.W.P.sprite.draw2dungeon(cls.W.P.orientation,0, surf, cls.W.P.x,cls.W.P.y)

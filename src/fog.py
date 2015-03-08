@@ -19,7 +19,7 @@ evh = events.EventHandler
 wor = world.World
 vis = visualizer.Visualization
 wor.init((DUNGEON_X,DUNGEON_Y))
-vis.init()
+vis.init(wor)
 resources.init_resources()
 
 pygame.mixer.music.load("sounds/Kirby_and_the_Rainbow_Curse_-_Boss_(Kirbys_Dream_Land).ogg")
@@ -29,7 +29,7 @@ while wor.RUN:
 
 	evs = evh.filter_keydown()
 	evh.movement2player(evs)
-	wor.player.handle_movement()
+	wor.P.handle_movement()
 
 	vis.render_main()
 
