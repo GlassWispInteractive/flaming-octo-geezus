@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *-*
 
-import random
+from random import randint
 
 from const import *
 from helper import *
@@ -19,7 +19,7 @@ class Player(object):
 			m = cls.W.cur_dungeon()
 			x, y = DUNGEON_X/2, DUNGEON_Y/2
 			while m.level[x][y] not in list(range(1,3)):
-				x, y = random.randint(0, m.size_x-1), random.randint(0, m.size_y-1)
+				x, y = randint(0, m.size_x-1), randint(0, m.size_y-1)
 			cls.x = x
 			cls.y = y
 
@@ -65,22 +65,27 @@ class Player(object):
 				# print cls.y, cls.W.cam, cls.W.cam_y, Y / SCALE, dung.size_y
 		cls.commands = [] # ohne das gibts seltsame glitches ^^
 
+		cls.pill_level()
 
-	# not in work
-	# @classmethod
-	# def move(cls):
-	# 	"""Takes a Dir enum and moves the player (if possible)"""
-	# 	for c in cls.commands:
-	# 		if type(c) == Enum:
-	# 			if c == Enum.N:
-	# 				try_pos(cls.x, cls.y-1)
-	# 			if c == Enum.E:
-	# 				try_pos(cls.x+1, cls.y)
-	# 			if c == Enum.S:
-	# 				try_pos(cls.x, cls.y+1)
-	# 			if c == Enum.W:
-	# 				try_pos(cls.x-1, cls.y)
+	@classmethod
+	def pill_level(cls):
+		dung = cls.W.cur_dungeon()
+		
+		if not dung.pills:
+			return
 
-	# 	def try_pos(x,y):
-	# 		if cls.W.cur_dungeon().level[x][y] != 0: # if movement is allowed
-	# 			cls.x, cls.y = x, y # then move
+		for p in dung.pills:
+			if p.x != cls.x or p.y != cls.y:
+				continue
+
+			if p.hp != 0:
+				cls.W.H.lvl -= p.hp
+				cls.W.H.lvl += randint(2, 5)
+				dung.pills
+
+			dung.pills.remove(p)
+			break
+
+		p.hp = ([p.hp for p in dung.pills if cls.x == p.x and cls.y == p.y]+[0])[0]
+		
+
